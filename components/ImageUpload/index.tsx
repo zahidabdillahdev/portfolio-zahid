@@ -117,7 +117,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             ref={fileInputRef}
           />
           <Button
-            type='button'
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
             className='whitespace-nowrap'
