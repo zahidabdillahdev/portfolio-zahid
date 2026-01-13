@@ -252,7 +252,7 @@ const BookForm: React.FC<BookFormProps> = ({ bookToEdit }) => {
             <ImageUpload
               value={book.imageURL}
               onChange={(url) => handleChange('imageURL', url)}
-              label="Book Cover Image"
+              label='Book Cover Image'
             />
           </div>
           <div>

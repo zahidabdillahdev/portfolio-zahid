@@ -302,7 +302,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ projectToEdit }) => {
             <ImageUpload
               value={project.image}
               onChange={(url) => handleChange('image', url)}
-              label="Project Image"
+              label='Project Image'
             />
           </div>
           <div>

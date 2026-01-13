@@ -421,7 +421,7 @@ const EmploymentForm: React.FC<EmploymentFormProps> = ({
             <ImageUpload
               value={employment.orgLogoSrc}
               onChange={(url) => handleChange('orgLogoSrc', url)}
-              label="Organization Logo"
+              label='Organization Logo'
             />
           </div>
         </form>

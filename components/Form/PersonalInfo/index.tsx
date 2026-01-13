@@ -109,7 +109,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data }) => {
             <ImageUpload
               value={personalInfo.avatarUrl}
               onChange={(url) => handleChange('avatarUrl', url)}
-              label="Avatar Image"
+              label='Avatar Image'
             />
           </div>
         </form>

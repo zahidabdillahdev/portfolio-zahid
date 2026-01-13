@@ -342,7 +342,7 @@ const MovieForm: React.FC<MovieFormProps> = ({ movieToEdit }) => {
             <ImageUpload
               value={movie.posterUrl || ''}
               onChange={(url) => handleChange('posterUrl', url)}
-              label="Poster Image"
+              label='Poster Image'
             />
           </div>
           <div>

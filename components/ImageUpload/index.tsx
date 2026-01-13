@@ -11,7 +11,11 @@ interface ImageUploadProps {
   label?: string;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange, label = "Image" }) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({
+  value,
+  onChange,
+  label = 'Image',
+}) => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,7 +25,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange, label = "Ima
 
     // Check file size (e.g., limit to 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("File is too large. Maximum size is 5MB.");
+      toast.error('File is too large. Maximum size is 5MB.');
       return;
     }
 
@@ -61,10 +65,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange, label = "Ima
 
       // 3. Set the resulting URL
       onChange(fileUrl);
-      toast.success("Image uploaded successfully!");
-    } catch (error: any) {
-      console.error("Upload error:", error);
-      toast.error(error.message || "Failed to upload image.");
+      toast.success('Image uploaded successfully!');
+    } catch (error: unknown) {
+      console.error('Upload error:', error);
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to upload image.',
+      );
     } finally {
       setUploading(false);
       if (fileInputRef.current) {
@@ -74,54 +80,56 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange, label = "Ima
   };
 
   return (
-    <div className="space-y-2">
+    <div className='space-y-2'>
       <FormLabel>{label}</FormLabel>
-      <div className="flex flex-col gap-4">
+      <div className='flex flex-col gap-4'>
         {value && (
-          <div className="relative aspect-video w-full overflow-hidden rounded-md border dark:border-neutral-700">
+          <div className='relative aspect-video w-full overflow-hidden rounded-md border dark:border-neutral-700'>
             <Image
               src={value}
-              alt="Uploaded image"
+              alt='Uploaded image'
               fill
-              className="object-cover"
+              className='object-cover'
               unoptimized // S3 URLs might not be in next.config.js images domains
             />
             <button
-              type="button"
+              type='button'
               onClick={() => onChange('')}
-              className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white shadow-sm hover:bg-red-600 transition-colors"
+              className='absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white shadow-sm hover:bg-red-600 transition-colors'
             >
-              <Icon name="x" className="h-4 w-4" />
+              <Icon name='x' className='h-4 w-4' />
             </button>
           </div>
         )}
-        <div className="flex gap-2">
+        <div className='flex gap-2'>
           <Input
-            type="text"
+            type='text'
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            placeholder="Image URL or upload a file"
-            className="flex-1"
+            placeholder='Image URL or upload a file'
+            className='flex-1'
           />
           <input
-            type="file"
-            accept="image/*"
+            type='file'
+            accept='image/*'
             onChange={handleUpload}
-            className="hidden"
+            className='hidden'
             ref={fileInputRef}
           />
           <Button
-            type="button"
+            type='button'
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            className="whitespace-nowrap"
+            className='whitespace-nowrap'
           >
             {uploading ? (
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-800 dark:border-neutral-700 dark:border-t-white" />
+              <div className='h-4 w-4 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-800 dark:border-neutral-700 dark:border-t-white' />
             ) : (
-              <Icon name="image" className="h-4 w-4" />
+              <Icon name='image' className='h-4 w-4' />
             )}
-            <span className="ml-2">{uploading ? 'Uploading...' : 'Upload'}</span>
+            <span className='ml-2'>
+              {uploading ? 'Uploading...' : 'Upload'}
+            </span>
           </Button>
         </div>
       </div>

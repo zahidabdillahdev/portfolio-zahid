@@ -250,7 +250,7 @@ const PostForm: React.FC<PostFormProps> = ({ postToEdit }) => {
             <ImageUpload
               value={post.img || ''}
               onChange={(url) => handleChange('img', url)}
-              label="Post Image"
+              label='Post Image'
             />
           </div>
           <div>

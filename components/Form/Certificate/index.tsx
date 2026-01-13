@@ -231,7 +231,7 @@ const CertificateForm: React.FC<CertificateFormProps> = ({
             <ImageUpload
               value={certificate.imageUrl}
               onChange={(url) => handleChange('imageUrl', url)}
-              label="Certificate Image"
+              label='Certificate Image'
             />
           </div>
           <div>
@@ -249,7 +249,7 @@ const CertificateForm: React.FC<CertificateFormProps> = ({
             <ImageUpload
               value={certificate.organizationLogoUrl || ''}
               onChange={(url) => handleChange('organizationLogoUrl', url)}
-              label="Organization Logo"
+              label='Organization Logo'
             />
           </div>
         </form>
