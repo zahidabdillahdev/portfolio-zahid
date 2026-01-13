@@ -12,7 +12,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   return {
-    title: `${category} - Zulfikar`,
+    title: `${category} - Zahid`,
     description: `Browse posts in the ${category} category`,
   };
 }

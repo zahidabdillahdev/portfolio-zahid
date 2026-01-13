@@ -3,7 +3,7 @@ import { PersonalInfo } from '@/types/personalInfo';
 
 // Default personal info data
 const defaultPersonalInfo: PersonalInfo = {
-  name: 'Zulfikar',
+  name: 'Zahid',
   title: 'IR student, journalist, and web developer.',
   avatarUrl: '/avatar.jpg',
 };

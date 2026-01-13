@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import NewMovieContent from './content';
 
 export const metadata: Metadata = {
-  title: 'Add Movie - Zulfikar',
+  title: 'Add Movie - Zahid',
   description: 'Add a new movie to your list',
 };
 

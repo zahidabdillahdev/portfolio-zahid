@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import CategoriesContent from './content';
 
 export const metadata: Metadata = {
-  title: 'Categories - Zulfikar',
+  title: 'Categories - Zahid',
   description: 'Browse all post categories',
 };
 

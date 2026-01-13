@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import NewProjectContent from './content';
 
 export const metadata: Metadata = {
-  title: 'Add Post - Zulfikar',
+  title: 'Add Post - Zahid',
   description: 'Add a new post',
 };
 

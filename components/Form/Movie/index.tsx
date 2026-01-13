@@ -6,6 +6,7 @@ import { Movie } from '@/types/movie';
 import { Button, FormLabel, Input } from '@/components/UI';
 import MovieCard from '@/components/Card/Movie';
 import ImageWithFallback from '@/components/ImageWithFallback';
+import ImageUpload from '@/components/ImageUpload';
 import { toast } from '@/components/Toast';
 import { addMovie, updateMovie, deleteMovie } from '@/functions/movies';
 import { modal } from '@/components/Modal';
@@ -338,11 +339,10 @@ const MovieForm: React.FC<MovieFormProps> = ({ movieToEdit }) => {
             />
           </div>
           <div>
-            <FormLabel htmlFor='posterUrl'>Poster URL</FormLabel>
-            <Input
-              type='text'
+            <ImageUpload
               value={movie.posterUrl || ''}
-              onChange={(e) => handleChange('posterUrl', e.target.value)}
+              onChange={(url) => handleChange('posterUrl', url)}
+              label="Poster Image"
             />
           </div>
           <div>

@@ -29,8 +29,8 @@ const contacts: ContactItem[] = [
   },
   {
     platform: 'LinkedIn',
-    link: 'https://linkedin.com/in/zulfikar-muhammad',
-    username: 'Muhammad Zulfikar',
+    link: 'https://linkedin.com/in/Zahid-muhammad',
+    username: 'Muhammad Zahid',
     icon: 'linkedin',
     color: 'text-blue-600',
   },

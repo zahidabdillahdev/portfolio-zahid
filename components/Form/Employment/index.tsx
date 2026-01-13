@@ -10,6 +10,7 @@ import {
 } from '@/components/UI';
 import { EmploymentCard } from '@/components/Card/Employment';
 import { toast } from '@/components/Toast';
+import ImageUpload from '@/components/ImageUpload';
 import {
   addEmployment,
   updateEmployment,
@@ -417,15 +418,10 @@ const EmploymentForm: React.FC<EmploymentFormProps> = ({
             />
           </div>
           <div>
-            <FormLabel htmlFor='organizationLogoUrl' required>
-              Organization Logo URL
-            </FormLabel>
-            <Input
-              type='text'
+            <ImageUpload
               value={employment.orgLogoSrc}
-              onChange={(e) => handleChange('orgLogoSrc', e.target.value)}
-              placeholder='https://organization-logo.com'
-              required
+              onChange={(url) => handleChange('orgLogoSrc', url)}
+              label="Organization Logo"
             />
           </div>
         </form>

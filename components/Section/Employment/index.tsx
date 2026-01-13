@@ -37,7 +37,7 @@ const EmploymentSection = () => {
         icon='briefcase'
         title='Employments'
         link={{
-          href: 'https://www.linkedin.com/in/zulfikar-muhammad',
+          href: 'https://www.linkedin.com/in/Zahid-muhammad',
           label: 'LinkedIn',
         }}
       />

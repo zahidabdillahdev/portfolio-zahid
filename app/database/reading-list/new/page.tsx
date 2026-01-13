@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import NewBookContent from './content';
 
 export const metadata: Metadata = {
-  title: 'Add Book - Zulfikar',
+  title: 'Add Book - Zahid',
   description: 'Add a new book',
 };
 

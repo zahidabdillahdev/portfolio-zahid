@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import PublicationDatabase from './content';
 
 export const metadata: Metadata = {
-  title: 'Publications - Zulfikar',
+  title: 'Publications - Zahid',
   description: 'A collection of my publications',
 };
 

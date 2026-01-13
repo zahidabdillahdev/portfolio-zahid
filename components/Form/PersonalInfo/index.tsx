@@ -5,6 +5,7 @@ import { PersonalInfo } from '@/types/personalInfo';
 import { Button, FormLabel, Input } from '@/components/UI';
 import { updatePersonalInfo } from '@/functions/personalInfo';
 import { toast } from '@/components/Toast';
+import ImageUpload from '@/components/ImageUpload';
 import { Hover } from '@/components/Visual';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import Separator from '@/components/UI/Separator';
@@ -105,13 +106,10 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data }) => {
             />
           </div>
           <div>
-            <FormLabel htmlFor='avatarUrl' required>
-              Avatar URL
-            </FormLabel>
-            <Input
+            <ImageUpload
               value={personalInfo.avatarUrl}
-              onChange={(e) => handleChange('avatarUrl', e.target.value)}
-              required
+              onChange={(url) => handleChange('avatarUrl', url)}
+              label="Avatar Image"
             />
           </div>
         </form>

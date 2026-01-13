@@ -40,7 +40,7 @@ const HeaderComponent = ({ headerRef }: HeaderComponentProps) => {
                 <ImageWithFallback
                   className='rounded-full'
                   src='/favicon/android-chrome-192x192.png'
-                  alt='Zulfikar'
+                  alt='Zahid'
                   height={24}
                   width={24}
                   loading='lazy'
@@ -48,7 +48,7 @@ const HeaderComponent = ({ headerRef }: HeaderComponentProps) => {
                 />
               </div>
               <div className='text-3 font-medium text-neutral-700 dark:text-neutral-300 group-hover:text-neutral-800 dark:group-hover:text-neutral-200'>
-                Zulfikar
+                Zahid
               </div>
             </div>
           </Link>

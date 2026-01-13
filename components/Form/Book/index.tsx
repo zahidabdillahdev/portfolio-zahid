@@ -5,6 +5,7 @@ import { Book } from '@/types/book';
 import { Button, Dropdown, FormLabel, Icon, Input } from '@/components/UI';
 import { BookCard } from '@/components/Card/Book';
 import { addBook, updateBook, deleteBook } from '@/functions/books';
+import ImageUpload from '@/components/ImageUpload';
 import { toast } from '@/components/Toast';
 import { generateId } from '@/utilities/generateId';
 import { modal } from '@/components/Modal';
@@ -248,13 +249,10 @@ const BookForm: React.FC<BookFormProps> = ({ bookToEdit }) => {
             />
           </div>
           <div>
-            <FormLabel htmlFor='imageUrl' required>
-              Image URL
-            </FormLabel>
-            <Input
-              type='text'
+            <ImageUpload
               value={book.imageURL}
-              onChange={(e) => handleChange('imageURL', e.target.value)}
+              onChange={(url) => handleChange('imageURL', url)}
+              label="Book Cover Image"
             />
           </div>
           <div>

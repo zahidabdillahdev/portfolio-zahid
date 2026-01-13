@@ -26,7 +26,7 @@ export default function PostDatabase() {
       <PageTitle
         emoji='📰'
         title='Posts'
-        subtitle='Browse all posts on Zulfikar'
+        subtitle='Browse all posts on Zahid'
       />
 
       <div className='grid grid-cols-1 gap-4'>

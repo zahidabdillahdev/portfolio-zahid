@@ -5,6 +5,7 @@ import { Certificate } from '@/types/certificate';
 import { Button, FormLabel, Input } from '@/components/UI';
 import CertificateCard from '@/components/Card/Certificate';
 import { toast } from '@/components/Toast';
+import ImageUpload from '@/components/ImageUpload';
 import {
   addCertificate,
   updateCertificate,
@@ -227,11 +228,10 @@ const CertificateForm: React.FC<CertificateFormProps> = ({
             />
           </div>
           <div>
-            <FormLabel htmlFor='imageUrl'>Image URL</FormLabel>
-            <Input
-              type='text'
+            <ImageUpload
               value={certificate.imageUrl}
-              onChange={(e) => handleChange('imageUrl', e.target.value)}
+              onChange={(url) => handleChange('imageUrl', url)}
+              label="Certificate Image"
             />
           </div>
           <div>
@@ -246,15 +246,10 @@ const CertificateForm: React.FC<CertificateFormProps> = ({
             />
           </div>
           <div>
-            <FormLabel htmlFor='organizationLogoUrl'>
-              Organization Logo URL
-            </FormLabel>
-            <Input
-              type='text'
-              value={certificate.organizationLogoUrl}
-              onChange={(e) =>
-                handleChange('organizationLogoUrl', e.target.value)
-              }
+            <ImageUpload
+              value={certificate.organizationLogoUrl || ''}
+              onChange={(url) => handleChange('organizationLogoUrl', url)}
+              label="Organization Logo"
             />
           </div>
         </form>

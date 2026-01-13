@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import ContactsContent from './content';
 
 export const metadata: Metadata = {
-  title: 'Contacts - Zulfikar',
+  title: 'Contacts - Zahid',
 };
 
 export default function ContactsPage() {

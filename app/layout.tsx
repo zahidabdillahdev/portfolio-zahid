@@ -12,9 +12,9 @@ import '@/styles/atom-one-dark.css';
 import DynamicBackground from '@/components/Visual/Background';
 
 export const metadata: Metadata = {
-  title: 'Zulfikar',
+  title: 'Zahid',
   description: 'IR Student, Journalist, and Web Developer',
-  keywords: 'Zulfikar',
+  keywords: 'Zahid',
 };
 
 export default function RootLayout({

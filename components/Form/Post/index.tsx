@@ -9,6 +9,7 @@ import { Button, FormLabel, Input, Textarea } from '@/components/UI';
 import { modal } from '@/components/Modal';
 import PostCard from '@/components/Card/Post';
 import { Editor } from '@/components/Editor';
+import ImageUpload from '@/components/ImageUpload';
 import { formatDate } from '@/utilities/formatDate';
 import DateSelect from '@/components/DateSelect';
 import Separator from '@/components/UI/Separator';
@@ -246,12 +247,10 @@ const PostForm: React.FC<PostFormProps> = ({ postToEdit }) => {
             />
           </div>
           <div>
-            <FormLabel htmlFor='imgUrl'>Image URL</FormLabel>
-            <Input
-              type='text'
+            <ImageUpload
               value={post.img || ''}
-              onChange={(e) => handleChange('img', e.target.value)}
-              placeholder='https://image-url.com'
+              onChange={(url) => handleChange('img', url)}
+              label="Post Image"
             />
           </div>
           <div>

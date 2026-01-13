@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import ReadingListDatabase from './content';
 
 export const metadata: Metadata = {
-  title: 'Reading List - Zulfikar',
+  title: 'Reading List - Zahid',
   description: 'A collection of my books',
 };
 

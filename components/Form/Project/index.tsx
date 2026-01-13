@@ -15,6 +15,7 @@ import {
 import { Editor } from '@/components/Editor';
 import { ProjectCard } from '@/components/Card/Project';
 import { toast } from '@/components/Toast';
+import ImageUpload from '@/components/ImageUpload';
 import { addProject, updateProject, deleteProject } from '@/functions/projects';
 import { generateId } from '@/utilities/generateId';
 import { formatDateRange } from '@/utilities/formatDate';
@@ -298,15 +299,10 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ projectToEdit }) => {
             />
           </div>
           <div>
-            <FormLabel htmlFor='imageUrl' required>
-              Image URL
-            </FormLabel>
-            <Input
-              type='text'
+            <ImageUpload
               value={project.image}
-              onChange={(e) => handleChange('image', e.target.value)}
-              placeholder='https://project-image-url.com'
-              required
+              onChange={(url) => handleChange('image', url)}
+              label="Project Image"
             />
           </div>
           <div>

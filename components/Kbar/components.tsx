@@ -173,7 +173,7 @@ export function KbarContent() {
             desc: 'Connect on LinkedIn',
             action: () =>
               window.open(
-                'https://www.linkedin.com/in/zulfikar-muhammad',
+                'https://www.linkedin.com/in/Zahid-muhammad',
                 '_blank',
               ),
             icon: 'linkedin',
