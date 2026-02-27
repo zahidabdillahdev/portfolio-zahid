@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Column, Heading, Text, Row, Button, Icon, Grid, Media, Feedback } from "@once-ui-system/core";
+import { Column, Heading, Text, Row, Button, Icon, Grid, Media, Feedback, useToast } from "@once-ui-system/core";
 
 type MediaItem = {
   id: string;
@@ -21,6 +21,7 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { addToast } = useToast();
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -73,13 +74,23 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
       });
 
       if (response.ok) {
+        addToast({
+            message: "Asset uploaded successfully!",
+            variant: "success"
+        });
         fetchMedia();
       } else {
-        alert("Upload failed");
+        addToast({
+            message: "Upload failed.",
+            variant: "danger"
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("An error occurred during upload");
+      addToast({
+          message: "An error occurred during upload.",
+          variant: "danger"
+      });
     } finally {
       if (isMounted.current) setUploading(false);
     }
@@ -89,10 +100,24 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
     if (!confirm("Are you sure you want to delete this file?")) return;
     try {
       const response = await fetch(`/api/media?id=${id}`, { method: "DELETE" });
-      if (response.ok) fetchMedia();
-      else alert("Delete failed");
+      if (response.ok) {
+        addToast({
+            message: "Asset deleted successfully.",
+            variant: "success"
+        });
+        fetchMedia();
+      } else {
+        addToast({
+            message: "Delete failed.",
+            variant: "danger"
+        });
+      }
     } catch (err) {
       console.error(err);
+      addToast({
+          message: "An error occurred.",
+          variant: "danger"
+      });
     }
   };
 
@@ -182,7 +207,10 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
                     fillWidth
                     onClick={() => {
                       navigator.clipboard.writeText(item.url);
-                      alert("Link copied!");
+                      addToast({
+                          message: "Link copied to clipboard!",
+                          variant: "success"
+                      });
                     }}
                   >
                     Link

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@once-ui-system/core";
+import { Button, useToast } from "@once-ui-system/core";
 import { useRouter } from "next/navigation";
 
 export function DeleteProjectButton({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(false);
+  const { addToast } = useToast();
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -18,13 +19,23 @@ export function DeleteProjectButton({ slug }: { slug: string }) {
       });
 
       if (response.ok) {
+        addToast({
+            message: "Project deleted successfully.",
+            variant: "success"
+        });
         router.refresh();
       } else {
-        alert("Failed to delete project");
+        addToast({
+            message: "Failed to delete project.",
+            variant: "danger"
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("An error occurred");
+      addToast({
+          message: "An error occurred.",
+          variant: "danger"
+      });
     } finally {
       setLoading(false);
     }

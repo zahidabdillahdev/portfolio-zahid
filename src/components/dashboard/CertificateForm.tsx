@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Column, Row, Button, Input, Text } from "@once-ui-system/core";
+import { Column, Row, Button, Input, Text, useToast } from "@once-ui-system/core";
 import { useRouter } from "next/navigation";
 
 type CertificateFormProps = {
@@ -20,6 +20,7 @@ type CertificateFormProps = {
 
 export function CertificateForm({ initialData, isEditing = false }: CertificateFormProps) {
   const router = useRouter();
+  const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
@@ -48,14 +49,24 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
       });
 
       if (response.ok) {
+        addToast({
+            message: `Certificate ${isEditing ? 'updated' : 'saved'} successfully!`,
+            variant: "success"
+        });
         router.push("/dashboard/certificates");
         router.refresh();
       } else {
-        alert("Failed to save certificate");
+        addToast({
+            message: "Failed to save certificate.",
+            variant: "danger"
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("An error occurred");
+      addToast({
+          message: "An unexpected error occurred.",
+          variant: "danger"
+      });
     } finally {
       setLoading(false);
     }

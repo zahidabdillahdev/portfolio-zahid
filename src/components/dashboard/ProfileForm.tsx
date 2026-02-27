@@ -1,13 +1,21 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Column, Row, Button, Input, Text, Heading, Feedback, Icon, Grid } from "@once-ui-system/core";
+import { Column, Row, Button, Input, Text, Heading, Feedback, Icon, Grid, Media, useToast } from "@once-ui-system/core";
 import { useRouter } from "next/navigation";
+
+type MediaItem = {
+  id: string;
+  url: string;
+  filename: string;
+};
 
 export function ProfileForm() {
   const router = useRouter();
+  const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -29,30 +37,31 @@ export function ProfileForm() {
   useEffect(() => {
     isMounted.current = true;
     
-    fetch("/api/profile")
-      .then(res => res.json())
-      .then(data => {
-        if (isMounted.current && data && !data.error) {
+    Promise.all([
+      fetch("/api/profile").then(res => res.json()),
+      fetch("/api/media").then(res => res.json())
+    ]).then(([profileData, mediaData]) => {
+      if (isMounted.current) {
+        if (profileData && !profileData.error) {
           setFormData(prev => ({
             ...prev,
-            first_name: data.first_name ?? "",
-            last_name: data.last_name ?? "",
-            name: data.name ?? "",
-            role: data.role ?? "",
-            avatar: data.avatar ?? "",
-            email: data.email ?? "",
-            location: data.location ?? "",
-            languages: data.languages ?? [],
-            github_link: data.github_link ?? "",
-            linkedin_link: data.linkedin_link ?? "",
-            instagram_link: data.instagram_link ?? "",
-            threads_link: data.threads_link ?? "",
-            home_headline: data.home_headline ?? "",
-            home_subline: data.home_subline ?? "",
+            ...profileData,
+            first_name: profileData.first_name ?? "",
+            last_name: profileData.last_name ?? "",
+            name: profileData.name ?? "",
+            role: profileData.role ?? "",
+            avatar: profileData.avatar ?? "",
+            email: profileData.email ?? "",
+            location: profileData.location ?? "",
+            home_headline: profileData.home_headline ?? "",
+            home_subline: profileData.home_subline ?? "",
           }));
         }
-      })
-      .catch(err => console.error("Error loading profile:", err))
+        if (Array.isArray(mediaData)) {
+          setMediaItems(mediaData);
+        }
+      }
+    }).catch(err => console.error("Error loading data:", err))
       .finally(() => {
         if (isMounted.current) setFetching(false);
       });
@@ -63,6 +72,10 @@ export function ProfileForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const selectAvatar = (url: string) => {
+    setFormData(prev => ({ ...prev, avatar: url }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -77,14 +90,23 @@ export function ProfileForm() {
       });
 
       if (response.ok) {
-        alert("Profile updated successfully!");
+        addToast({
+            message: "Identity updated successfully!",
+            variant: "success"
+        });
         router.refresh();
       } else {
-        alert("Failed to update profile");
+        addToast({
+            message: "Failed to update profile.",
+            variant: "danger"
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("An error occurred");
+      addToast({
+          message: "An unexpected error occurred.",
+          variant: "danger"
+      });
     } finally {
       if (isMounted.current) setLoading(false);
     }
@@ -96,13 +118,54 @@ export function ProfileForm() {
     <form onSubmit={handleSubmit} style={{ width: "100%" }}>
       <Column gap="48" fillWidth>
         
-        {/* Basic Information Section */}
         <Column gap="24">
           <Row gap="12" vertical="center">
             <Icon name="person" size="s" onBackground="brand-medium" />
             <Heading variant="heading-strong-m">Personal Brand</Heading>
           </Row>
           
+          <Column gap="12">
+            <Text variant="label-default-m" onBackground="neutral-weak">Select Profile Photo</Text>
+            {mediaItems.length > 0 ? (
+              <Grid columns="6" gap="12" s={{ columns: 3 }}>
+                {mediaItems.map((item) => (
+                  <Column 
+                    key={item.id} 
+                    cursor="interactive"
+                    onClick={() => selectAvatar(item.url)}
+                    style={{ 
+                      position: 'relative',
+                      border: formData.avatar === item.url ? '2px solid var(--brand-solid-strong)' : '2px solid transparent',
+                      borderRadius: '12px',
+                      padding: '2px',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    <Media
+                      src={item.url}
+                      alt={item.filename}
+                      aspectRatio="1 / 1"
+                      radius="m"
+                    />
+                    {formData.avatar === item.url && (
+                      <Row 
+                        position="absolute" 
+                        style={{ top: '-8px', right: '-8px' }}
+                        background="brand-solid-strong"
+                        radius="full"
+                        padding="4"
+                      >
+                        <Icon name="check" size="xs" onBackground="static-white" />
+                      </Row>
+                    )}
+                  </Column>
+                ))}
+              </Grid>
+            ) : (
+              <Text variant="body-default-s" onBackground="neutral-weak">No media found. Upload photos in the Media section first.</Text>
+            )}
+          </Column>
+
           <Row gap="16" s={{ direction: "column" }}>
             <Column gap="12" flex={1}>
               <Text variant="label-default-m" onBackground="neutral-weak">First Name</Text>
@@ -124,11 +187,6 @@ export function ProfileForm() {
             <Input name="role" value={formData.role} onChange={handleChange} placeholder="e.g. Design Engineer" />
           </Column>
 
-          <Column gap="12">
-            <Text variant="label-default-m" onBackground="neutral-weak">Avatar URL</Text>
-            <Input name="avatar" value={formData.avatar} onChange={handleChange} placeholder="Link to your image from assets" />
-          </Column>
-
           <Row gap="16" s={{ direction: "column" }}>
             <Column gap="12" flex={1}>
               <Text variant="label-default-m" onBackground="neutral-weak">Email</Text>
@@ -141,7 +199,6 @@ export function ProfileForm() {
           </Row>
         </Column>
 
-        {/* Social Presence Section */}
         <Column gap="24">
           <Row gap="12" vertical="center">
             <Icon name="globe" size="s" onBackground="brand-medium" />
@@ -163,7 +220,6 @@ export function ProfileForm() {
           </Grid>
         </Column>
 
-        {/* Website Content Section */}
         <Column gap="24">
           <Row gap="12" vertical="center">
             <Icon name="home" size="s" onBackground="brand-medium" />
