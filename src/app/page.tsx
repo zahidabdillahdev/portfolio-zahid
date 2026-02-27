@@ -9,12 +9,9 @@ import {
   Row,
   Schema,
   Meta,
-  Line,
 } from "@once-ui-system/core";
-import { about, baseURL, routes } from "@/resources";
-import { Mailchimp } from "@/components";
+import { about, baseURL } from "@/resources";
 import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
 import { getProfile } from "@/utils/utils";
 
 export const revalidate = 0;
@@ -50,7 +47,7 @@ export default async function Home() {
       />
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
-          {home.featured.display && (
+          {home.featured?.display && (
             <RevealFx
               fillWidth
               horizontal="center"
@@ -77,7 +74,7 @@ export default async function Home() {
             </Heading>
           </RevealFx>
           <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
+            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl" align="center">
               {home.subline}
             </Text>
           </RevealFx>
@@ -85,52 +82,36 @@ export default async function Home() {
             <Button
               id="about"
               data-border="rounded"
-              href={about.path}
+              href="/about"
               variant="secondary"
               size="m"
               weight="default"
               arrowIcon
             >
               <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
+                {person.avatar ? (
                   <Avatar
                     marginRight="8"
                     style={{ marginLeft: "-0.75rem" }}
                     src={person.avatar}
                     size="m"
                   />
+                ) : (
+                    <Avatar
+                    marginRight="8"
+                    style={{ marginLeft: "-0.75rem" }}
+                    size="m"
+                  />
                 )}
-                {about.title}
+                About
               </Row>
             </Button>
           </RevealFx>
         </Column>
       </Column>
       <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
+        <Projects />
       </RevealFx>
-      {routes["/blog"] && (
-        <Column fillWidth gap="24" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
-                Latest from the blog
-              </Heading>
-            </Row>
-            <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
-            </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
-          </Row>
-        </Column>
-      )}
-      <Projects range={[2]} />
-      <Mailchimp />
     </Column>
   );
 }
