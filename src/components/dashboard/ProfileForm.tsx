@@ -30,21 +30,27 @@ export function ProfileForm() {
       .then(res => res.json())
       .then(data => {
         if (data && !data.error) {
-          // Ensure null values from DB become empty strings for inputs
-          const sanitizedData = { ...data };
-          Object.keys(sanitizedData).forEach(key => {
-            if (sanitizedData[key] === null) {
-              sanitizedData[key] = "";
-            }
-          });
-          
+          // Carefully merge and sanitize data to avoid 'undefined' values
           setFormData(prev => ({
             ...prev,
-            ...sanitizedData,
-            languages: data.languages || [],
+            first_name: data.first_name ?? "",
+            last_name: data.last_name ?? "",
+            name: data.name ?? "",
+            role: data.role ?? "",
+            avatar: data.avatar ?? "",
+            email: data.email ?? "",
+            location: data.location ?? "",
+            languages: data.languages ?? [],
+            github_link: data.github_link ?? "",
+            linkedin_link: data.linkedin_link ?? "",
+            instagram_link: data.instagram_link ?? "",
+            threads_link: data.threads_link ?? "",
+            home_headline: data.home_headline ?? "",
+            home_subline: data.home_subline ?? "",
           }));
         }
       })
+      .catch(err => console.error("Error loading profile:", err))
       .finally(() => setFetching(false));
   }, []);
 
@@ -78,7 +84,7 @@ export function ProfileForm() {
     }
   };
 
-  if (fetching) return <Text>Loading profile...</Text>;
+  if (fetching) return <Text paddingY="48">Loading profile data...</Text>;
 
   return (
     <form onSubmit={handleSubmit} style={{ width: "100%" }}>
