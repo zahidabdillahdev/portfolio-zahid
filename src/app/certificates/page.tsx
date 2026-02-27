@@ -62,8 +62,12 @@ export default async function Certificates() {
       </Grid>
 
       {certificates.length === 0 && (
-        <Column fillWidth paddingY="128" horizontal="center">
-          <Text onBackground="neutral-weak">No certificates added yet.</Text>
+        <Column fillWidth paddingY="128" horizontal="center" gap="16">
+          <Icon name="book" size="l" onBackground="neutral-alpha-medium" />
+          <Text onBackground="neutral-weak" align="center">
+            Professional certifications are currently being updated. <br />
+            Please check back soon to view my latest credentials.
+          </Text>
         </Column>
       )}
     </Column>

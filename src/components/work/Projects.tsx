@@ -38,6 +38,14 @@ export async function Projects({ range, exclude }: ProjectsProps) {
           link={post.metadata.link || ""}
         />
       ))}
+      {displayedProjects.length === 0 && (
+        <Column fillWidth paddingY="128" horizontal="center" gap="16">
+          <Text onBackground="neutral-weak" align="center">
+            The project portfolio is currently being curated. <br />
+            Please check back soon to see my latest work.
+          </Text>
+        </Column>
+      )}
     </Column>
   );
 }
