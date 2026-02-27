@@ -10,11 +10,14 @@ export async function GET() {
   }
 
   try {
-    const { rows } = await pool!.query("SELECT * FROM media ORDER BY created_at DESC");
-    return NextResponse.json(rows);
+    const result = await pool!.query("SELECT * FROM media ORDER BY created_at DESC");
+    return NextResponse.json(result.rows || []);
   } catch (err: any) {
-    console.error("Error fetching media:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("CRITICAL DATABASE ERROR:", err.message);
+    return NextResponse.json({ 
+      error: err.message,
+      detail: "Make sure you have run the SQL script in CloudBeaver to create the 'media' table."
+    }, { status: 500 });
   }
 }
 
@@ -37,7 +40,6 @@ export async function POST(req: NextRequest) {
     const fileName = `${fileId}.${extension}`;
     const bucketName = process.env.R2_BUCKET_NAME;
 
-    // Upload to R2
     await s3Client.send(
       new PutObjectCommand({
         Bucket: bucketName,
@@ -49,7 +51,6 @@ export async function POST(req: NextRequest) {
 
     const publicUrl = `${process.env.R2_PUBLIC_DOMAIN}/${fileName}`;
 
-    // Save metadata to Database
     const { rows } = await pool!.query(
       `INSERT INTO media (url, filename, mime_type, size) 
        VALUES ($1, $2, $3, $4) 
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(rows[0], { status: 201 });
   } catch (err: any) {
-    console.error("Error uploading media:", err);
+    console.error("UPLOAD ERROR:", err.message);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
@@ -77,7 +78,6 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
-    // Get file info from DB
     const { rows } = await pool!.query("SELECT * FROM media WHERE id = $1", [id]);
     if (rows.length === 0) {
       return NextResponse.json({ error: "Media not found" }, { status: 404 });
@@ -86,7 +86,6 @@ export async function DELETE(req: NextRequest) {
     const media = rows[0];
     const fileName = media.url.split("/").pop();
 
-    // Delete from R2
     await s3Client.send(
       new DeleteObjectCommand({
         Bucket: process.env.R2_BUCKET_NAME,
@@ -94,12 +93,11 @@ export async function DELETE(req: NextRequest) {
       })
     );
 
-    // Delete from DB
     await pool!.query("DELETE FROM media WHERE id = $1", [id]);
 
     return NextResponse.json({ message: "Media deleted successfully" });
   } catch (err: any) {
-    console.error("Error deleting media:", err);
+    console.error("DELETE ERROR:", err.message);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

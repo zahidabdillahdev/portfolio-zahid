@@ -20,10 +20,12 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchMedia = async () => {
     if (!isConfigured) return;
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch("/api/media");
       const data = await response.json();
@@ -31,11 +33,13 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
         setMedia(data);
       } else {
         setMedia([]);
+        setError(data.error || "Failed to load media");
         console.error("API returned non-array data:", data);
       }
     } catch (err) {
       console.error(err);
       setMedia([]);
+      setError("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
@@ -108,6 +112,14 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
           </Button>
         </label>
       </Row>
+
+      {error && (
+        <Feedback
+          variant="danger"
+          title="Error loading media"
+          description={error}
+        />
+      )}
 
       {loading ? (
         <Text align="center" paddingY="48">Loading media...</Text>
