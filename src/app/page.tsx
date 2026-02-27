@@ -112,6 +112,25 @@ export default async function Home() {
       <RevealFx translateY="16" delay={0.6}>
         <Projects />
       </RevealFx>
+
+      <Column fillWidth horizontal="center" paddingY="64" gap="24">
+        <Heading variant="display-strong-xs">Let's connect</Heading>
+        <Text onBackground="neutral-weak" align="center" maxWidth="s">
+          I'm always open to new opportunities and collaborations. <br />
+          Reach out if you'd like to work together or just say hi!
+        </Text>
+        <Button
+          href={person.email ? `mailto:${person.email}` : "#"}
+          variant="primary"
+          size="l"
+          data-border="rounded"
+        >
+          <Row gap="8" vertical="center">
+            <Icon name="email" size="s" />
+            Email Me
+          </Row>
+        </Button>
+      </Column>
     </Column>
   );
 }

@@ -42,7 +42,7 @@ export async function getProfile() {
             { ...social[0], link: db.github_link || social[0].link },
             { ...social[1], link: db.linkedin_link || social[1].link },
             { ...social[2], link: db.instagram_link || social[2].link },
-            ...social.slice(3)
+            { ...social[3], link: db.email ? `mailto:${db.email}` : social[3].link },
           ]
         };
       }

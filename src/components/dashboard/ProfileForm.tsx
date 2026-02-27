@@ -149,15 +149,15 @@ export function ProfileForm() {
           </Row>
           <Grid columns="3" gap="16" s={{ columns: 1 }}>
             <Column gap="12">
-              <Text variant="label-default-m" onBackground="neutral-weak">GitHub</Text>
+              <Text variant="label-default-m" onBackground="neutral-weak">GitHub Link</Text>
               <Input name="github_link" value={formData.github_link} onChange={handleChange} />
             </Column>
             <Column gap="12">
-              <Text variant="label-default-m" onBackground="neutral-weak">LinkedIn</Text>
+              <Text variant="label-default-m" onBackground="neutral-weak">LinkedIn Link</Text>
               <Input name="linkedin_link" value={formData.linkedin_link} onChange={handleChange} />
             </Column>
             <Column gap="12">
-              <Text variant="label-default-m" onBackground="neutral-weak">Instagram</Text>
+              <Text variant="label-default-m" onBackground="neutral-weak">Instagram Link</Text>
               <Input name="instagram_link" value={formData.instagram_link} onChange={handleChange} />
             </Column>
           </Grid>
