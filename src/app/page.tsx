@@ -14,6 +14,7 @@ import {
 import { about, baseURL } from "@/resources";
 import { Projects } from "@/components/work/Projects";
 import { getProfile } from "@/utils/utils";
+import { ContactForm } from "@/components/ContactForm";
 
 export const revalidate = 0;
 
@@ -122,17 +123,7 @@ export default async function Home() {
             Reach out if you'd like to work together or just say hi!
           </Text>
         </Column>
-        <Button
-          href={person.email ? `mailto:${person.email}` : "#"}
-          variant="primary"
-          size="l"
-          data-border="rounded"
-        >
-          <Row gap="8" vertical="center">
-            <Icon name="email" size="s" />
-            Email Me
-          </Row>
-        </Button>
+        <ContactForm email={person.email} />
       </Column>
     </Column>
   );
