@@ -301,4 +301,11 @@ const gallery: Gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+const dashboard = {
+  path: "/dashboard",
+  label: "Dashboard",
+  title: "Dashboard",
+  description: "Manage portfolio content",
+};
+
+export { person, social, newsletter, home, about, blog, work, gallery, dashboard };

@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { notFound } from "next/navigation";
+import pool from "@/lib/db";
 
 type Team = {
   name: string;
@@ -20,8 +22,6 @@ type Metadata = {
   team: Team[];
   link?: string;
 };
-
-import { notFound } from "next/navigation";
 
 function getMDXFiles(dir: string) {
   if (!fs.existsSync(dir)) {
@@ -68,7 +68,41 @@ function getMDXData(dir: string) {
   });
 }
 
-export function getPosts(customPath = ["", "", "", ""]) {
+export async function getPosts(customPath = ["src", "app", "work", "projects"]) {
   const postsDir = path.join(process.cwd(), ...customPath);
-  return getMDXData(postsDir);
+  const staticPosts = getMDXData(postsDir);
+
+  // If we are looking for projects, also check database
+  if (customPath.includes("work") && customPath.includes("projects")) {
+    try {
+      const { rows } = await pool.query("SELECT * FROM projects ORDER BY published_at DESC");
+      const dbPosts = rows.map((row) => ({
+        slug: row.slug,
+        metadata: {
+          title: row.title,
+          subtitle: "",
+          publishedAt: row.published_at.toISOString().split("T")[0],
+          summary: row.description || "",
+          image: row.cover_image || "",
+          images: row.images || [],
+          tag: row.tags || [],
+          team: [],
+          link: "",
+        },
+        content: row.content,
+      }));
+
+      // Merge: DB overrides static with same slug
+      const mergedMap = new Map();
+      staticPosts.forEach((p) => mergedMap.set(p.slug, p));
+      dbPosts.forEach((p) => mergedMap.set(p.slug, p));
+
+      return Array.from(mergedMap.values());
+    } catch (err) {
+      console.error("Error fetching from DB:", err);
+      return staticPosts;
+    }
+  }
+
+  return staticPosts;
 }

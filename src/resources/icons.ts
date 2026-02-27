@@ -12,6 +12,7 @@ import {
   HiOutlineDocument,
   HiOutlineGlobeAsiaAustralia,
   HiOutlineRocketLaunch,
+  HiPlus,
 } from "react-icons/hi2";
 
 import {
@@ -33,6 +34,7 @@ import { FaDiscord, FaGithub, FaLinkedin, FaX, FaThreads, FaInstagram, FaXTwitte
 
 export const iconLibrary: Record<string, IconType> = {
   arrowUpRight: HiArrowUpRight,
+  plus: HiPlus,
   arrowRight: HiArrowRight,
   email: HiEnvelope,
   globe: HiOutlineGlobeAsiaAustralia,
