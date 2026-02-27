@@ -45,7 +45,6 @@ export function ProfileForm() {
         if (profileData && !profileData.error) {
           setFormData(prev => ({
             ...prev,
-            ...profileData,
             first_name: profileData.first_name ?? "",
             last_name: profileData.last_name ?? "",
             name: profileData.name ?? "",
@@ -53,8 +52,13 @@ export function ProfileForm() {
             avatar: profileData.avatar ?? "",
             email: profileData.email ?? "",
             location: profileData.location ?? "",
+            github_link: profileData.github_link ?? "",
+            linkedin_link: profileData.linkedin_link ?? "",
+            instagram_link: profileData.instagram_link ?? "",
+            threads_link: profileData.threads_link ?? "",
             home_headline: profileData.home_headline ?? "",
             home_subline: profileData.home_subline ?? "",
+            languages: profileData.languages ?? [],
           }));
         }
         if (Array.isArray(mediaData)) {
