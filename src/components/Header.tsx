@@ -20,17 +20,27 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
   useEffect(() => {
     let isMounted = true;
     const updateTime = () => {
-      const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
-      const timeString = new Intl.DateTimeFormat(locale, options).format(now);
-      if (isMounted) {
-        setCurrentTime(timeString);
+      try {
+        const now = new Date();
+        const options: Intl.DateTimeFormatOptions = {
+          timeZone,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        };
+        const timeString = new Intl.DateTimeFormat(locale, options).format(now);
+        if (isMounted) {
+          setCurrentTime(timeString);
+        }
+      } catch (e) {
+        console.error("Invalid timezone:", timeZone);
+        // Fallback to UTC if timezone is invalid
+        const now = new Date();
+        const timeString = now.toISOString().split("T")[1].slice(0, 8);
+        if (isMounted) {
+          setCurrentTime(timeString);
+        }
       }
     };
 
@@ -50,7 +60,7 @@ export default TimeDisplay;
 
 export const Header = ({ profile }: { profile?: any }) => {
   const pathname = usePathname() ?? "";
-  const displayLocation = profile?.person?.location || "GMT+7";
+  const displayLocation = profile?.person?.location || "Asia/Jakarta";
 
   return (
     <>
