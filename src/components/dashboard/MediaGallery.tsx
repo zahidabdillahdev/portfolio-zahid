@@ -73,6 +73,8 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
         body: formData,
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         addToast({
             message: "Asset uploaded successfully!",
@@ -81,11 +83,12 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
         fetchMedia();
       } else {
         addToast({
-            message: "Upload failed.",
+            message: `Upload failed: ${result.error || 'Unknown error'}`,
             variant: "danger"
         });
+        console.error("Upload failed details:", result);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       addToast({
           message: "An error occurred during upload.",
