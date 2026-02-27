@@ -34,10 +34,10 @@ export const Footer = ({ profile }: { profile?: any }) => {
         </Text>
         <Row gap="16">
           {displaySocial.map(
-            (item: any) =>
+            (item: any, index: number) =>
               item.link && (
                 <IconButton
-                  key={item.name}
+                  key={index}
                   href={item.link}
                   icon={item.icon}
                   tooltip={item.name}

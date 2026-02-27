@@ -141,10 +141,9 @@ export default async function About() {
                       .map(
                   (item: any, index: number) =>
                     item.link && (
-                      <React.Fragment key={`${item.name}-${index}`}>
+                      <React.Fragment key={index}>
                         <Row s={{ hide: true }}>
                           <Button
-                            key={item.name}
                             href={item.link}
                             prefixIcon={item.icon}
                             label={item.name}
@@ -156,7 +155,6 @@ export default async function About() {
                         <Row hide s={{ hide: false }}>
                           <IconButton
                             size="l"
-                            key={`${item.name}-icon`}
                             href={item.link}
                             icon={item.icon}
                             variant="secondary"
