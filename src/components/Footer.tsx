@@ -2,8 +2,10 @@ import { Row, IconButton, SmartLink, Text } from "@once-ui-system/core";
 import { person, social } from "@/resources";
 import styles from "./Footer.module.scss";
 
-export const Footer = () => {
+export const Footer = ({ profile }: { profile?: any }) => {
   const currentYear = new Date().getFullYear();
+  const displayName = profile?.person?.name || person.name;
+  const displaySocial = profile?.social || social;
 
   return (
     <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
@@ -23,7 +25,7 @@ export const Footer = () => {
       >
         <Text variant="body-default-s" onBackground="neutral-strong">
           <Text onBackground="neutral-weak">© {currentYear} /</Text>
-          <Text paddingX="4">{person.name}</Text>
+          <Text paddingX="4">{displayName}</Text>
           <Text onBackground="neutral-weak">
             {/* Usage of this template requires attribution. Please don't remove the link to Once UI unless you have a Pro license. */}
             / Build your portfolio with{" "}
@@ -31,8 +33,8 @@ export const Footer = () => {
           </Text>
         </Text>
         <Row gap="16">
-          {social.map(
-            (item) =>
+          {displaySocial.map(
+            (item: any) =>
               item.link && (
                 <IconButton
                   key={item.name}

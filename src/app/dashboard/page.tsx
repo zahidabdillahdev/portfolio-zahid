@@ -20,6 +20,12 @@ export default function Dashboard() {
       icon: "person",
       href: "/dashboard/certificates",
     },
+    {
+      title: "Identity",
+      description: "Update your name, role, and social links",
+      icon: "person",
+      href: "/dashboard/profile",
+    },
   ];
 
   return (

@@ -3,6 +3,48 @@ import path from "path";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
 import pool, { isConfigured } from "@/lib/db";
+import { person, social, home } from "@/resources/content";
+
+// ... existing types ...
+
+export async function getProfile() {
+  if (isConfigured) {
+    try {
+      const { rows } = await pool!.query("SELECT * FROM profile WHERE id = 1");
+      if (rows[0]) {
+        const db = rows[0];
+        // Merge with static defaults for fields not in DB
+        return {
+          person: {
+            ...person,
+            firstName: db.first_name || person.firstName,
+            lastName: db.last_name || person.lastName,
+            name: db.name || person.name,
+            role: db.role || person.role,
+            avatar: db.avatar || person.avatar,
+            email: db.email || person.email,
+            location: db.location || person.location,
+            languages: db.languages || person.languages,
+          },
+          home: {
+            ...home,
+            headline: db.home_headline || home.headline,
+            subline: db.home_subline || home.subline,
+          },
+          social: [
+            { ...social[0], link: db.github_link || social[0].link },
+            { ...social[1], link: db.linkedin_link || social[1].link },
+            { ...social[2], link: db.instagram_link || social[2].link },
+            ...social.slice(3)
+          ]
+        };
+      }
+    } catch (err) {
+      console.error("Error fetching profile from DB:", err);
+    }
+  }
+  return { person, social, home };
+}
 
 type Team = {
   name: string;

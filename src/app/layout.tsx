@@ -14,9 +14,11 @@ import {
   SpacingToken,
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
-import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
+import { baseURL, effects, fonts, style, dataStyle } from "@/resources";
+import { getProfile } from "@/utils/utils";
 
 export async function generateMetadata() {
+  const { home } = await getProfile();
   return Meta.generate({
     title: home.title,
     description: home.description,
@@ -31,6 +33,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const profile = await getProfile();
+
   return (
     <Flex
       suppressHydrationWarning
@@ -156,13 +160,13 @@ export default async function RootLayout({
             />
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
-          <Header />
+          <Header profile={profile} />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
               <RouteGuard>{children}</RouteGuard>
             </Flex>
           </Flex>
-          <Footer />
+          <Footer profile={profile} />
         </Column>
       </Providers>
     </Flex>

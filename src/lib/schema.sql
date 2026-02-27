@@ -38,3 +38,28 @@ CREATE TABLE IF NOT EXISTS media (
     height INTEGER,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Profile / Identity table
+CREATE TABLE IF NOT EXISTS profile (
+    id SERIAL PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    name TEXT,
+    role TEXT,
+    avatar TEXT,
+    email TEXT,
+    location TEXT,
+    languages TEXT[] DEFAULT '{}',
+    github_link TEXT,
+    linkedin_link TEXT,
+    instagram_link TEXT,
+    threads_link TEXT,
+    home_headline TEXT,
+    home_subline TEXT,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert a default record if none exists
+INSERT INTO profile (id, name)
+SELECT 1, 'Admin'
+WHERE NOT EXISTS (SELECT 1 FROM profile WHERE id = 1);

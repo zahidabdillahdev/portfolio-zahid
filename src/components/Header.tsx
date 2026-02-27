@@ -42,8 +42,9 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
 
 export default TimeDisplay;
 
-export const Header = () => {
+export const Header = ({ profile }: { profile?: any }) => {
   const pathname = usePathname() ?? "";
+  const displayLocation = profile?.person?.location || person.location;
 
   return (
     <>
@@ -73,7 +74,7 @@ export const Header = () => {
         }}
       >
         <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
-          {display.location && <Row s={{ hide: true }}>{person.location}</Row>}
+          {display.location && <Row s={{ hide: true }}>{displayLocation}</Row>}
         </Row>
         <Row fillWidth horizontal="center">
           <Row

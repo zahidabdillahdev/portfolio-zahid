@@ -11,12 +11,14 @@ import {
   Meta,
   Line,
 } from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
+import { about, baseURL, routes } from "@/resources";
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
+import { getProfile } from "@/utils/utils";
 
 export async function generateMetadata() {
+  const { home } = await getProfile();
   return Meta.generate({
     title: home.title,
     description: home.description,
@@ -26,7 +28,9 @@ export async function generateMetadata() {
   });
 }
 
-export default function Home() {
+export default async function Home() {
+  const { home, person } = await getProfile();
+
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Schema
