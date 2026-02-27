@@ -7,7 +7,7 @@ export default async function ProjectsDashboard() {
   const projects = await getPosts(["src", "app", "work", "projects"]);
 
   return (
-    <Column maxWidth="m" fillWidth paddingY="24" gap="24">
+    <Column fillWidth gap="32">
       {!isConfigured && (
         <Feedback
           variant="warning"
@@ -18,13 +18,14 @@ export default async function ProjectsDashboard() {
       <Row fillWidth horizontal="justify" vertical="center">
         <Column gap="8">
           <Heading variant="display-strong-s">Projects</Heading>
-          <Text onBackground="neutral-weak">Manage your portfolio projects.</Text>
+          <Text onBackground="neutral-weak">Manage your portfolio works.</Text>
         </Column>
         <Button
           href="/dashboard/projects/new"
           variant="primary"
           size="m"
           weight="default"
+          data-border="rounded"
         >
           <Row gap="8" vertical="center">
             <Icon name="plus" size="s" />
@@ -44,12 +45,14 @@ export default async function ProjectsDashboard() {
             border="neutral-alpha-weak"
             horizontal="justify"
             vertical="center"
+            transition="all"
+            style={{ borderStyle: 'solid' }}
           >
             <Column gap="4">
               <Row gap="8" vertical="center">
                 <Text variant="heading-strong-m">{project.metadata.title}</Text>
                 {project.isStatic ? (
-                  <Badge size="s" variant="neutral">Static (MDX)</Badge>
+                  <Badge size="s" variant="neutral">Static</Badge>
                 ) : (
                   <Badge size="s" variant="brand">Database</Badge>
                 )}
@@ -71,9 +74,9 @@ export default async function ProjectsDashboard() {
           </Row>
         ))}
         {projects.length === 0 && (
-          <Text align="center" paddingY="48" onBackground="neutral-weak">
-            No projects found.
-          </Text>
+          <Column fillWidth paddingY="64" horizontal="center" background="neutral-alpha-weak" radius="m">
+            <Text onBackground="neutral-weak">No projects found.</Text>
+          </Column>
         )}
       </Column>
     </Column>

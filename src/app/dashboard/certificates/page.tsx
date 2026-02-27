@@ -5,7 +5,7 @@ import { DeleteCertificateButton } from "@/components/dashboard/DeleteCertificat
 async function getCertificates() {
   if (!isConfigured) return [];
   try {
-    const { rows } = await pool!.query("SELECT * FROM certificates ORDER BY created_at DESC");
+    const { rows } = await pool!.query("SELECT * FROM certificates ORDER BY issue_date DESC");
     return rows;
   } catch (err) {
     console.error(err);
@@ -17,7 +17,7 @@ export default async function CertificatesDashboard() {
   const certificates = await getCertificates();
 
   return (
-    <Column maxWidth="m" fillWidth paddingY="24" gap="24">
+    <Column fillWidth gap="32">
       {!isConfigured && (
         <Feedback
           variant="warning"
@@ -28,13 +28,14 @@ export default async function CertificatesDashboard() {
       <Row fillWidth horizontal="justify" vertical="center">
         <Column gap="8">
           <Heading variant="display-strong-s">Certificates</Heading>
-          <Text onBackground="neutral-weak">Manage your professional certifications.</Text>
+          <Text onBackground="neutral-weak">Manage your professional credentials.</Text>
         </Column>
         <Button
           href="/dashboard/certificates/new"
           variant="primary"
           size="m"
           weight="default"
+          data-border="rounded"
         >
           <Row gap="8" vertical="center">
             <Icon name="plus" size="s" />
@@ -54,6 +55,8 @@ export default async function CertificatesDashboard() {
             border="neutral-alpha-weak"
             horizontal="justify"
             vertical="center"
+            transition="all"
+            style={{ borderStyle: 'solid' }}
           >
             <Column gap="4">
               <Text variant="heading-strong-m">{cert.title}</Text>
@@ -74,9 +77,9 @@ export default async function CertificatesDashboard() {
           </Row>
         ))}
         {certificates.length === 0 && (
-          <Text align="center" paddingY="48" onBackground="neutral-weak">
-            No certificates found.
-          </Text>
+          <Column fillWidth paddingY="64" horizontal="center" background="neutral-alpha-weak" radius="m">
+            <Text onBackground="neutral-weak">No certificates found.</Text>
+          </Column>
         )}
       </Column>
     </Column>

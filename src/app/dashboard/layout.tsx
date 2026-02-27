@@ -9,14 +9,14 @@ export default function DashboardLayout({
 }) {
   return (
     <Column fillWidth horizontal="center" position="relative" style={{ minHeight: '100vh' }}>
-      {/* Background effects to match home page */}
+      {/* Background effects */}
       <RevealFx fill position="absolute" zIndex={-1}>
         <Background
           mask={{
             x: effects.mask.x,
             y: effects.mask.y,
-            radius: effects.mask.radius,
-            cursor: effects.mask.cursor,
+            radius: 100,
+            cursor: false,
           }}
           gradient={{
             display: effects.gradient.display,
@@ -35,19 +35,13 @@ export default function DashboardLayout({
             size: effects.dots.size as SpacingToken,
             color: effects.dots.color,
           }}
-          grid={{
-            display: effects.grid.display,
-            opacity: effects.grid.opacity as opacity,
-            color: effects.grid.color,
-            width: effects.grid.width,
-            height: effects.grid.height,
-          }}
         />
       </RevealFx>
 
-      <Column maxWidth="m" fillWidth paddingX="l" paddingTop="xl" gap="24">
-        {/* Simple Breadcrumb / Nav */}
-        <Row fillWidth vertical="center" gap="12" paddingBottom="24">
+      {/* Increased maxWidth to 'l' for a roomier dashboard */}
+      <Column maxWidth="l" fillWidth paddingX="l" paddingTop="xl" gap="24">
+        {/* Navigation / Breadcrumb */}
+        <Row fillWidth vertical="center" gap="12" paddingBottom="12">
            <Button
             href="/dashboard"
             variant="secondary"
@@ -62,15 +56,15 @@ export default function DashboardLayout({
           <Text variant="body-default-s" onBackground="neutral-weak">/</Text>
         </Row>
 
-        {/* Glassmorphism Content Container */}
+        {/* Refined Glass Container with better padding */}
         <Column 
           fillWidth 
           background="surface" 
           radius="l" 
           border="neutral-alpha-weak" 
-          padding="xl"
+          padding="l"
           shadow="l"
-          style={{ backdropFilter: 'blur(8px)' }}
+          style={{ backdropFilter: 'blur(12px)', borderStyle: 'solid' }}
         >
           {children}
         </Column>
