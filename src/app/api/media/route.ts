@@ -60,8 +60,12 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(rows[0], { status: 201 });
   } catch (err: any) {
-    console.error("UPLOAD ERROR:", err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("UPLOAD ERROR:", err);
+    return NextResponse.json({ 
+        error: err.message,
+        code: err.code,
+        requestId: err.$metadata?.requestId 
+    }, { status: 500 });
   }
 }
 
