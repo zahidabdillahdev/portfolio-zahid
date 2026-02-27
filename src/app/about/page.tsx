@@ -9,6 +9,7 @@ import {
   Text,
   Schema,
   Row,
+  Media,
 } from "@once-ui-system/core";
 import { baseURL } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
@@ -94,7 +95,13 @@ export default async function About() {
             horizontal="center"
           >
             {person.avatar ? (
-                <Avatar src={person.avatar} size="xl" />
+                <Media
+                    src={person.avatar}
+                    alt={person.name}
+                    aspectRatio="1 / 1"
+                    radius="full"
+                    style={{ width: '160px', border: '1px solid var(--neutral-alpha-weak)' }}
+                />
             ) : (
                 <Icon name="person" size="xl" onBackground="neutral-alpha-medium" />
             )}
