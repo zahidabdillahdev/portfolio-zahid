@@ -30,9 +30,17 @@ export function ProfileForm() {
       .then(res => res.json())
       .then(data => {
         if (data && !data.error) {
+          // Ensure null values from DB become empty strings for inputs
+          const sanitizedData = { ...data };
+          Object.keys(sanitizedData).forEach(key => {
+            if (sanitizedData[key] === null) {
+              sanitizedData[key] = "";
+            }
+          });
+          
           setFormData(prev => ({
             ...prev,
-            ...data,
+            ...sanitizedData,
             languages: data.languages || [],
           }));
         }
