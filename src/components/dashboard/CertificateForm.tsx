@@ -78,6 +78,7 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
         <Column gap="12">
           <Text variant="label-default-m">Certificate Title</Text>
           <Input
+            id="title"
             name="title"
             value={formData.title}
             onChange={handleChange}
@@ -89,6 +90,7 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
         <Column gap="12">
           <Text variant="label-default-m">Issuer</Text>
           <Input
+            id="issuer"
             name="issuer"
             value={formData.issuer}
             onChange={handleChange}
@@ -101,6 +103,7 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
             <Column gap="12" flex={1}>
                 <Text variant="label-default-m">Issue Date</Text>
                 <Input
+                    id="issue_date"
                     name="issue_date"
                     type="date"
                     value={formData.issue_date}
@@ -110,6 +113,7 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
             <Column gap="12" flex={1}>
                 <Text variant="label-default-m">Expiry Date</Text>
                 <Input
+                    id="expiry_date"
                     name="expiry_date"
                     type="date"
                     value={formData.expiry_date}
@@ -121,6 +125,7 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
         <Column gap="12">
           <Text variant="label-default-m">Credential ID</Text>
           <Input
+            id="credential_id"
             name="credential_id"
             value={formData.credential_id}
             onChange={handleChange}
@@ -131,6 +136,7 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
         <Column gap="12">
           <Text variant="label-default-m">Credential URL</Text>
           <Input
+            id="credential_url"
             name="credential_url"
             value={formData.credential_url}
             onChange={handleChange}
@@ -141,6 +147,7 @@ export function CertificateForm({ initialData, isEditing = false }: CertificateF
         <Column gap="12">
           <Text variant="label-default-m">Image URL</Text>
           <Input
+            id="image_url"
             name="image_url"
             value={formData.image_url}
             onChange={handleChange}

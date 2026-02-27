@@ -15,7 +15,7 @@ export default async function ProjectsDashboard() {
           description="Please set DATABASE_URL in your .env file to enable database features."
         />
       )}
-      <Row fillWidth horizontal="justify" vertical="center">
+      <Row fillWidth horizontal="between" vertical="center">
         <Column gap="8">
           <Heading variant="display-strong-s">Projects</Heading>
           <Text onBackground="neutral-weak">Manage your portfolio works.</Text>
@@ -43,18 +43,28 @@ export default async function ProjectsDashboard() {
             background="surface"
             radius="m"
             border="neutral-alpha-weak"
-            horizontal="justify"
+            horizontal="between"
             vertical="center"
-            transition="all"
+            transition="micro-medium"
             style={{ borderStyle: 'solid' }}
           >
             <Column gap="4">
               <Row gap="8" vertical="center">
                 <Text variant="heading-strong-m">{project.metadata.title}</Text>
                 {project.isStatic ? (
-                  <Badge size="s" variant="neutral">Static</Badge>
+                  <Badge 
+                    background="neutral-alpha-weak" 
+                    onBackground="neutral-strong"
+                  >
+                    Static
+                  </Badge>
                 ) : (
-                  <Badge size="s" variant="brand">Database</Badge>
+                  <Badge 
+                    background="brand-alpha-weak" 
+                    onBackground="brand-strong"
+                  >
+                    Database
+                  </Badge>
                 )}
               </Row>
               <Text variant="body-default-s" onBackground="neutral-weak">

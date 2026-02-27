@@ -103,7 +103,7 @@ export default async function About() {
                     style={{ width: '160px', border: '1px solid var(--neutral-alpha-weak)' }}
                 />
             ) : (
-                <Icon name="person" size="xl" onBackground="neutral-alpha-medium" />
+                <Icon name="person" size="xl" onBackground="neutral-medium" />
             )}
             <Row gap="8" vertical="center">
               <Icon onBackground="accent-weak" name="globe" />

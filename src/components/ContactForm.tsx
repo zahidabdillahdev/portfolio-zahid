@@ -42,9 +42,7 @@ export const ContactForm = ({ email }: { email: string }) => {
     // For now, we'll use mailto as a fallback but keep the UI "cool"
     setTimeout(() => {
       if (isMounted.current) {
-        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}
-
-${formData.message}`)}`;
+        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\n\n${formData.message}`)}`;
         window.location.href = mailtoLink;
         setStatus('success');
         setFormData({ name: "", subject: "", message: "" });
@@ -81,7 +79,7 @@ ${formData.message}`)}`;
         gap="24"
         style={{ backdropFilter: 'blur(12px)', borderStyle: 'solid' }}
       >
-        <Row horizontal="justify" vertical="center">
+        <Row horizontal="between" vertical="center">
           <Heading variant="display-strong-xs">Send a message</Heading>
           <IconButton
             icon="close"
@@ -108,6 +106,7 @@ ${formData.message}`)}`;
               <Column gap="8">
                 <Text variant="label-default-s" onBackground="neutral-weak">Your Name</Text>
                 <Input
+                  id="contact_name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
@@ -118,6 +117,7 @@ ${formData.message}`)}`;
               <Column gap="8">
                 <Text variant="label-default-s" onBackground="neutral-weak">Subject</Text>
                 <Input
+                  id="contact_subject"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}

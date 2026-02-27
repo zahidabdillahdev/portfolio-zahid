@@ -126,12 +126,12 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
 
   return (
     <Column fillWidth gap="32">
-      <Row fillWidth horizontal="justify" vertical="center" s={{ direction: "column", horizontal: "center", gap: "16" }}>
+      <Row fillWidth horizontal="between" vertical="center" s={{ direction: "column", horizontal: "center", gap: "16" }}>
         <Column gap="8" s={{ horizontal: "center", align: "center" }}>
           <Heading variant="display-strong-s">Assets Library</Heading>
           <Text onBackground="neutral-weak">Media and project resources stored in R2.</Text>
         </Column>
-        <label>
+        <label style={{ cursor: 'pointer' }}>
           <input
             type="file"
             style={{ display: "none" }}
@@ -139,18 +139,29 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
             disabled={uploading || !isConfigured}
             accept="image/*,video/*,application/pdf"
           />
-          <Button
-            as="span"
-            variant="primary"
-            size="m"
-            loading={uploading}
-            style={{ pointerEvents: !isConfigured ? 'none' : 'auto', opacity: !isConfigured ? 0.5 : 1 }}
+          <Row
+            paddingX="m"
+            paddingY="s"
+            background="brand-strong"
+            radius="m-4"
+            gap="8"
+            vertical="center"
+            style={{ 
+                pointerEvents: (!isConfigured || uploading) ? 'none' : 'auto', 
+                opacity: (!isConfigured || uploading) ? 0.5 : 1,
+                color: 'var(--static-white)',
+                fontWeight: 'var(--font-weight-strong)'
+            }}
           >
-            <Row gap="8" vertical="center">
-              <Icon name="plus" size="s" />
-              Upload Asset
-            </Row>
-          </Button>
+            {uploading ? (
+                <Text>Uploading...</Text>
+            ) : (
+                <>
+                    <Icon name="plus" size="s" />
+                    <Text>Upload Asset</Text>
+                </>
+            )}
+          </Row>
         </label>
       </Row>
 
@@ -185,7 +196,7 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
               overflow="hidden"
               gap="12"
               padding="8"
-              transition="all"
+              transition="micro-medium"
               style={{ borderStyle: 'solid' }}
             >
               <Media
@@ -231,7 +242,7 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
           ))}
           {media.length === 0 && !error && (
             <Column fillWidth style={{ gridColumn: "1 / -1" }} paddingY="64" horizontal="center" background="surface" radius="l" border="neutral-alpha-weak">
-              <Icon name="gallery" size="l" onBackground="neutral-alpha-medium" marginBottom="16" />
+              <Icon name="gallery" size="l" onBackground="neutral-medium" marginBottom="16" />
               <Text onBackground="neutral-weak">The library is empty.</Text>
             </Column>
           )}

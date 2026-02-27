@@ -8,7 +8,7 @@ const person: Person = {
   role: "",
   avatar: "",
   email: "",
-  location: "",
+  location: "Asia/Jakarta",
   languages: [],
 };
 

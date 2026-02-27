@@ -25,7 +25,7 @@ export default async function CertificatesDashboard() {
           description="Please set DATABASE_URL in your .env file to enable database features."
         />
       )}
-      <Row fillWidth horizontal="justify" vertical="center">
+      <Row fillWidth horizontal="between" vertical="center">
         <Column gap="8">
           <Heading variant="display-strong-s">Certificates</Heading>
           <Text onBackground="neutral-weak">Manage your professional credentials.</Text>
@@ -53,9 +53,9 @@ export default async function CertificatesDashboard() {
             background="surface"
             radius="m"
             border="neutral-alpha-weak"
-            horizontal="justify"
+            horizontal="between"
             vertical="center"
-            transition="all"
+            transition="micro-medium"
             style={{ borderStyle: 'solid' }}
           >
             <Column gap="4">

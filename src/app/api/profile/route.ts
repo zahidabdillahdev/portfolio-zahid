@@ -22,6 +22,7 @@ export async function PUT(req: NextRequest) {
 
   try {
     const body = await req.json();
+    console.log("UPDATING PROFILE WITH BODY:", body);
     const fields = [
       'first_name', 'last_name', 'name', 'role', 'avatar', 'email', 
       'location', 'languages', 'github_link', 'linkedin_link', 

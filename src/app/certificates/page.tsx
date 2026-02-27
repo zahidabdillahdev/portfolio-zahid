@@ -46,7 +46,7 @@ export default async function Certificates() {
                 </Text>
               </Column>
               
-              <Row horizontal="justify" vertical="center">
+              <Row horizontal="between" vertical="center">
                 <Text variant="body-default-xs" onBackground="neutral-weak">
                   Issued: {cert.issue_date?.toISOString().split('T')[0] || "N/A"}
                 </Text>
@@ -63,7 +63,7 @@ export default async function Certificates() {
 
       {certificates.length === 0 && (
         <Column fillWidth paddingY="128" horizontal="center" gap="16">
-          <Icon name="book" size="l" onBackground="neutral-alpha-medium" />
+          <Icon name="book" size="l" onBackground="neutral-medium" />
           <Text onBackground="neutral-weak" align="center">
             Professional certifications are currently being updated. <br />
             Please check back soon to view my latest credentials.

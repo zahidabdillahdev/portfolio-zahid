@@ -139,7 +139,7 @@ export function ProfileForm() {
                     onClick={() => selectAvatar(item.url)}
                     style={{ 
                       position: 'relative',
-                      border: formData.avatar === item.url ? '2px solid var(--brand-solid-strong)' : '2px solid transparent',
+                      border: formData.avatar === item.url ? '2px solid var(--brand-strong)' : '2px solid transparent',
                       borderRadius: '12px',
                       padding: '2px',
                       transition: 'all 0.2s'
@@ -155,11 +155,11 @@ export function ProfileForm() {
                       <Row 
                         position="absolute" 
                         style={{ top: '-8px', right: '-8px' }}
-                        background="brand-solid-strong"
+                        background="brand-strong"
                         radius="full"
                         padding="4"
                       >
-                        <Icon name="check" size="xs" onBackground="static-white" />
+                        <Icon name="check" size="xs" />
                       </Row>
                     )}
                   </Column>
@@ -173,32 +173,32 @@ export function ProfileForm() {
           <Row gap="16" s={{ direction: "column" }}>
             <Column gap="12" flex={1}>
               <Text variant="label-default-m" onBackground="neutral-weak">First Name</Text>
-              <Input name="first_name" value={formData.first_name} onChange={handleChange} />
+              <Input id="first_name" name="first_name" value={formData.first_name} onChange={handleChange} />
             </Column>
             <Column gap="12" flex={1}>
               <Text variant="label-default-m" onBackground="neutral-weak">Last Name</Text>
-              <Input name="last_name" value={formData.last_name} onChange={handleChange} />
+              <Input id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} />
             </Column>
           </Row>
           
           <Column gap="12">
             <Text variant="label-default-m" onBackground="neutral-weak">Full Display Name</Text>
-            <Input name="name" value={formData.name} onChange={handleChange} />
+            <Input id="name" name="name" value={formData.name} onChange={handleChange} />
           </Column>
 
           <Column gap="12">
             <Text variant="label-default-m" onBackground="neutral-weak">Your Role</Text>
-            <Input name="role" value={formData.role} onChange={handleChange} placeholder="e.g. Design Engineer" />
+            <Input id="role" name="role" value={formData.role} onChange={handleChange} placeholder="e.g. Design Engineer" />
           </Column>
 
           <Row gap="16" s={{ direction: "column" }}>
             <Column gap="12" flex={1}>
               <Text variant="label-default-m" onBackground="neutral-weak">Email</Text>
-              <Input name="email" value={formData.email} onChange={handleChange} />
+              <Input id="email" name="email" value={formData.email} onChange={handleChange} />
             </Column>
             <Column gap="12" flex={1}>
               <Text variant="label-default-m" onBackground="neutral-weak">Timezone / Location</Text>
-              <Input name="location" value={formData.location} onChange={handleChange} />
+              <Input id="location" name="location" value={formData.location} onChange={handleChange} />
             </Column>
           </Row>
         </Column>
@@ -211,15 +211,15 @@ export function ProfileForm() {
           <Grid columns="3" gap="16" s={{ columns: 1 }}>
             <Column gap="12">
               <Text variant="label-default-m" onBackground="neutral-weak">GitHub Link</Text>
-              <Input name="github_link" value={formData.github_link} onChange={handleChange} />
+              <Input id="github_link" name="github_link" value={formData.github_link} onChange={handleChange} />
             </Column>
             <Column gap="12">
               <Text variant="label-default-m" onBackground="neutral-weak">LinkedIn Link</Text>
-              <Input name="linkedin_link" value={formData.linkedin_link} onChange={handleChange} />
+              <Input id="linkedin_link" name="linkedin_link" value={formData.linkedin_link} onChange={handleChange} />
             </Column>
             <Column gap="12">
               <Text variant="label-default-m" onBackground="neutral-weak">Instagram Link</Text>
-              <Input name="instagram_link" value={formData.instagram_link} onChange={handleChange} />
+              <Input id="instagram_link" name="instagram_link" value={formData.instagram_link} onChange={handleChange} />
             </Column>
           </Grid>
         </Column>

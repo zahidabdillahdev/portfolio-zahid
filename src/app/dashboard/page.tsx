@@ -1,7 +1,13 @@
 import { Column, Heading, Text, Row, Button, Icon, Grid } from "@once-ui-system/core";
 
 export default function Dashboard() {
-  const sections = [
+  const sections: {
+    title: string;
+    description: string;
+    icon: string;
+    href: string;
+    color: "brand-medium" | "accent-medium" | "brand-strong" | "neutral-strong";
+  }[] = [
     {
       title: "Identity",
       description: "Personal branding and social links",
@@ -44,7 +50,7 @@ export default function Dashboard() {
           <Button
             key={section.title}
             href={section.href}
-            variant="ghost"
+            variant="tertiary"
             style={{ 
               height: 'auto', 
               padding: '0',
@@ -59,7 +65,7 @@ export default function Dashboard() {
               border="neutral-alpha-weak" 
               gap="24"
               vertical="center"
-              transition="all"
+              transition="micro-medium"
               style={{ borderStyle: 'solid' }}
             >
               <Column 

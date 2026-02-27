@@ -73,6 +73,7 @@ export function ProjectForm({ initialData, isEditing = false }: ProjectFormProps
         <Column gap="12">
           <Text variant="label-default-m">Title</Text>
           <Input
+            id="title"
             name="title"
             value={formData.title}
             onChange={handleChange}
@@ -84,6 +85,7 @@ export function ProjectForm({ initialData, isEditing = false }: ProjectFormProps
         <Column gap="12">
           <Text variant="label-default-m">Slug</Text>
           <Input
+            id="slug"
             name="slug"
             value={formData.slug}
             onChange={handleChange}
@@ -96,6 +98,7 @@ export function ProjectForm({ initialData, isEditing = false }: ProjectFormProps
         <Column gap="12">
           <Text variant="label-default-m">Description</Text>
           <Input
+            id="description"
             name="description"
             value={formData.description}
             onChange={handleChange}
@@ -106,6 +109,7 @@ export function ProjectForm({ initialData, isEditing = false }: ProjectFormProps
         <Column gap="12">
           <Text variant="label-default-m">Published Date</Text>
           <Input
+            id="publishedAt"
             name="publishedAt"
             type="date"
             value={formData.publishedAt}
