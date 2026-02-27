@@ -16,6 +16,11 @@ const nextConfig = {
         hostname: "www.google.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "pub-00a516b5745b487f9468452f4a498da2.r2.dev",
+        pathname: "**",
+      },
     ],
   },
   sassOptions: {
