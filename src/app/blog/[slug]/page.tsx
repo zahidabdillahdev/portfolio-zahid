@@ -17,6 +17,8 @@ import { ScrollToHash, CustomMDX } from "@/components";
 import { Metadata } from "next";
 import { Posts } from "@/components/blog/Posts";
 
+export const revalidate = 0;
+
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = await getPosts(["src", "app", "blog", "posts"]);
   return posts.map((post) => ({

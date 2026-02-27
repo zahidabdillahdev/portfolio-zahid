@@ -17,6 +17,8 @@ import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle } from "@/resources";
 import { getProfile } from "@/utils/utils";
 
+export const revalidate = 0;
+
 export async function generateMetadata() {
   const { home } = await getProfile();
   return Meta.generate({

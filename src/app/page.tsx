@@ -17,6 +17,8 @@ import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 import { getProfile } from "@/utils/utils";
 
+export const revalidate = 0;
+
 export async function generateMetadata() {
   const { home } = await getProfile();
   return Meta.generate({
