@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
-import { routes, display, person, about, blog, work, gallery, dashboard } from "@/resources";
+import { routes, display, about, work, dashboard } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 
@@ -44,7 +44,7 @@ export default TimeDisplay;
 
 export const Header = ({ profile }: { profile?: any }) => {
   const pathname = usePathname() ?? "";
-  const displayLocation = profile?.person?.location || person.location;
+  const displayLocation = profile?.person?.location || "GMT+7";
 
   return (
     <>
@@ -92,7 +92,7 @@ export const Header = ({ profile }: { profile?: any }) => {
               )}
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
               {routes["/about"] && (
-                <>
+                <Row gap="4" vertical="center">
                   <Row s={{ hide: true }}>
                     <ToggleButton
                       prefixIcon="person"
@@ -108,10 +108,10 @@ export const Header = ({ profile }: { profile?: any }) => {
                       selected={pathname === "/about"}
                     />
                   </Row>
-                </>
+                </Row>
               )}
               {routes["/work"] && (
-                <>
+                <Row gap="4" vertical="center">
                   <Row s={{ hide: true }}>
                     <ToggleButton
                       prefixIcon="grid"
@@ -127,63 +127,27 @@ export const Header = ({ profile }: { profile?: any }) => {
                       selected={pathname.startsWith("/work")}
                     />
                   </Row>
-                </>
+                </Row>
               )}
-              <Row s={{ hide: true }}>
-                <ToggleButton
-                  prefixIcon="book"
-                  href="/certificates"
-                  label="Certificates"
-                  selected={pathname.startsWith("/certificates")}
-                />
+              <Row gap="4" vertical="center">
+                <Row s={{ hide: true }}>
+                    <ToggleButton
+                    prefixIcon="book"
+                    href="/certificates"
+                    label="Certificates"
+                    selected={pathname.startsWith("/certificates")}
+                    />
+                </Row>
+                <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                    prefixIcon="book"
+                    href="/certificates"
+                    selected={pathname.startsWith("/certificates")}
+                    />
+                </Row>
               </Row>
-              <Row hide s={{ hide: false }}>
-                <ToggleButton
-                  prefixIcon="book"
-                  href="/certificates"
-                  selected={pathname.startsWith("/certificates")}
-                />
-              </Row>
-              {routes["/blog"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      label={blog.label}
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/gallery"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      label={gallery.label}
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                </>
-              )}
               {routes["/dashboard"] && (
-                <>
+                <Row gap="4" vertical="center">
                   <Row s={{ hide: true }}>
                     <ToggleButton
                       prefixIcon="grid"
@@ -199,13 +163,13 @@ export const Header = ({ profile }: { profile?: any }) => {
                       selected={pathname.startsWith("/dashboard")}
                     />
                   </Row>
-                </>
+                </Row>
               )}
               {display.themeSwitcher && (
-                <>
+                <Row gap="4" vertical="center">
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />
                   <ThemeToggle />
-                </>
+                </Row>
               )}
             </Row>
           </Row>
@@ -219,7 +183,7 @@ export const Header = ({ profile }: { profile?: any }) => {
             gap="20"
           >
             <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
+              {display.time && <TimeDisplay timeZone={displayLocation} />}
             </Flex>
           </Flex>
         </Flex>

@@ -10,7 +10,7 @@ import {
   Schema,
   Row,
 } from "@once-ui-system/core";
-import { baseURL, about } from "@/resources";
+import { baseURL } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
@@ -27,7 +27,7 @@ export async function generateMetadata() {
 }
 
 export default async function About() {
-  const { person, social } = await getProfile();
+  const { person, social, about } = await getProfile();
 
   const structure = [
     {
@@ -38,17 +38,17 @@ export default async function About() {
     {
       title: about.work.title,
       display: about.work.display,
-      items: about.work.experiences.map((experience) => experience.company),
+      items: about.work.experiences.map((experience: any) => experience.company),
     },
     {
       title: about.studies.title,
       display: about.studies.display,
-      items: about.studies.institutions.map((institution) => institution.name),
+      items: about.studies.institutions.map((institution: any) => institution.name),
     },
     {
       title: about.technical.title,
       display: about.technical.display,
-      items: about.technical.skills.map((skill) => skill.title),
+      items: about.technical.skills.map((skill: any) => skill.title),
     },
   ];
 
@@ -93,14 +93,18 @@ export default async function About() {
             flex={3}
             horizontal="center"
           >
-            <Avatar src={person.avatar} size="xl" />
+            {person.avatar ? (
+                <Avatar src={person.avatar} size="xl" />
+            ) : (
+                <Icon name="person" size="xl" onBackground="neutral-alpha-medium" />
+            )}
             <Row gap="8" vertical="center">
               <Icon onBackground="accent-weak" name="globe" />
               {person.location}
             </Row>
             {person.languages && person.languages.length > 0 && (
               <Row wrap gap="8">
-                {person.languages.map((language, index) => (
+                {person.languages.map((language: string, index: number) => (
                   <Tag key={index} size="l">
                     {language}
                   </Tag>
@@ -137,11 +141,10 @@ export default async function About() {
                 data-border="rounded"
               >
                 {social
-                      .filter((item: any) => item.essential)
+                      .filter((item: any) => item.essential && item.link)
                       .map(
-                  (item: any, index: number) =>
-                    item.link && (
-                      <React.Fragment key={index}>
+                  (item: any, index: number) => (
+                      <React.Fragment key={`${item.name}-${index}`}>
                         <Row s={{ hide: true }}>
                           <Button
                             href={item.link}
@@ -161,22 +164,23 @@ export default async function About() {
                           />
                         </Row>
                       </React.Fragment>
-                    ),
+                    )
                 )}
               </Row>
           </Column>
 
-          <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
+          {about.intro.display && (
+            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
               {about.intro.description}
-          </Column>
+            </Column>
+          )}
           
-          {/* Static sections remain as fallback/placeholders for now */}
-          <Heading as="h2" id="Experience" variant="display-strong-s" marginBottom="m">
-            Experience
-          </Heading>
-          <Text onBackground="neutral-weak" marginBottom="xl">
-            Update your experience details in the code or wait for the next dashboard update!
-          </Text>
+          {about.work.display && (
+              <Column fillWidth gap="m" marginBottom="xl">
+                  <Heading as="h2" variant="display-strong-s">{about.work.title}</Heading>
+                  {/* ... map experiences if any ... */}
+              </Column>
+          )}
         </Column>
       </Row>
     </Column>

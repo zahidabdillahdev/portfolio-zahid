@@ -31,6 +31,13 @@ export async function getProfile() {
             headline: db.home_headline || home.headline,
             subline: db.home_subline || home.subline,
           },
+          about: {
+            ...about,
+            intro: {
+                ...about.intro,
+                description: db.home_subline || about.intro.description,
+            }
+          },
           social: [
             { ...social[0], link: db.github_link || social[0].link },
             { ...social[1], link: db.linkedin_link || social[1].link },
