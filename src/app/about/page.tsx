@@ -139,9 +139,9 @@ export default async function About() {
                 {social
                       .filter((item: any) => item.essential)
                       .map(
-                  (item: any) =>
+                  (item: any, index: number) =>
                     item.link && (
-                      <React.Fragment key={item.name}>
+                      <React.Fragment key={`${item.name}-${index}`}>
                         <Row s={{ hide: true }}>
                           <Button
                             key={item.name}
