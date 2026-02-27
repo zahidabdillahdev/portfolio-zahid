@@ -129,6 +129,21 @@ export const Header = ({ profile }: { profile?: any }) => {
                   </Row>
                 </>
               )}
+              <Row s={{ hide: true }}>
+                <ToggleButton
+                  prefixIcon="book"
+                  href="/certificates"
+                  label="Certificates"
+                  selected={pathname.startsWith("/certificates")}
+                />
+              </Row>
+              <Row hide s={{ hide: false }}>
+                <ToggleButton
+                  prefixIcon="book"
+                  href="/certificates"
+                  selected={pathname.startsWith("/certificates")}
+                />
+              </Row>
               {routes["/blog"] && (
                 <>
                   <Row s={{ hide: true }}>
