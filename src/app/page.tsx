@@ -9,6 +9,7 @@ import {
   Row,
   Schema,
   Meta,
+  Icon,
 } from "@once-ui-system/core";
 import { about, baseURL } from "@/resources";
 import { Projects } from "@/components/work/Projects";

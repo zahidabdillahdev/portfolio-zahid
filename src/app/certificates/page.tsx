@@ -1,4 +1,4 @@
-import { Column, Heading, Text, Row, Grid, Media, SmartLink, RevealFx } from "@once-ui-system/core";
+import { Column, Heading, Text, Row, Grid, Media, SmartLink, RevealFx, Icon } from "@once-ui-system/core";
 import pool, { isConfigured } from "@/lib/db";
 import { getProfile } from "@/utils/utils";
 
