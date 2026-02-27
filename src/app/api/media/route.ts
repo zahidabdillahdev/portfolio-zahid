@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import s3Client from "@/lib/s3";
 import pool, { isConfigured } from "@/lib/db";
 import { v4 as uuidv4 } from "uuid";
@@ -60,6 +60,46 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(rows[0], { status: 201 });
   } catch (err: any) {
     console.error("Error uploading media:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  if (!isConfigured) {
+    return NextResponse.json({ error: "Database not configured" }, { status: 500 });
+  }
+
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    // Get file info from DB
+    const { rows } = await pool!.query("SELECT * FROM media WHERE id = $1", [id]);
+    if (rows.length === 0) {
+      return NextResponse.json({ error: "Media not found" }, { status: 404 });
+    }
+
+    const media = rows[0];
+    const fileName = media.url.split("/").pop();
+
+    // Delete from R2
+    await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: process.env.R2_BUCKET_NAME,
+        Key: fileName,
+      })
+    );
+
+    // Delete from DB
+    await pool!.query("DELETE FROM media WHERE id = $1", [id]);
+
+    return NextResponse.json({ message: "Media deleted successfully" });
+  } catch (err: any) {
+    console.error("Error deleting media:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

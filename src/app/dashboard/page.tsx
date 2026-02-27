@@ -1,65 +1,59 @@
-import { Column, Heading, Text, Row, Button, Icon } from "@once-ui-system/core";
+import { Column, Heading, Text, Row, Button, Icon, Grid } from "@once-ui-system/core";
 
 export default function Dashboard() {
+  const sections = [
+    {
+      title: "Projects",
+      description: "Manage your work and projects",
+      icon: "grid",
+      href: "/dashboard/projects",
+    },
+    {
+      title: "Media",
+      description: "Upload images and videos",
+      icon: "gallery",
+      href: "/dashboard/media",
+    },
+    {
+      title: "Certificates",
+      description: "Manage your professional certifications",
+      icon: "person",
+      href: "/dashboard/certificates",
+    },
+  ];
+
   return (
     <Column maxWidth="m" fillWidth paddingY="24" gap="24">
-      <Heading variant="display-strong-s">Dashboard</Heading>
-      <Text onBackground="neutral-weak">Manage your portfolio content and settings.</Text>
-
-      <Row fillWidth gap="12" wrap>
-        <Button
-          href="/dashboard/projects"
-          variant="secondary"
-          size="m"
-          weight="default"
-        >
-          <Row gap="8" vertical="center">
-            <Icon name="grid" size="s" />
-            Projects
-          </Row>
-        </Button>
-        <Button
-          href="/dashboard/media"
-          variant="secondary"
-          size="m"
-          weight="default"
-        >
-          <Row gap="8" vertical="center">
-            <Icon name="gallery" size="s" />
-            Media
-          </Row>
-        </Button>
-        <Button
-          href="/dashboard/certificates"
-          variant="secondary"
-          size="m"
-          weight="default"
-        >
-          <Row gap="8" vertical="center">
-            <Icon name="person" size="s" />
-            Certificates
-          </Row>
-        </Button>
-        <Button
-          href="/dashboard/content"
-          variant="secondary"
-          size="m"
-          weight="default"
-        >
-          <Row gap="8" vertical="center">
-            <Icon name="book" size="s" />
-            Content
-          </Row>
-        </Button>
-      </Row>
-
-      <Column gap="12" marginTop="24">
-        <Heading variant="heading-strong-m">Welcome, Zahid</Heading>
-        <Text onBackground="neutral-weak">
-          This is your private dashboard for managing your portfolio.
-          Everything you do here is backed by PostgreSQL and Cloudflare R2.
-        </Text>
+      <Column gap="8">
+        <Heading variant="display-strong-s">Dashboard</Heading>
+        <Text onBackground="neutral-weak">Welcome to your portfolio management system.</Text>
       </Column>
+
+      <Grid columns="3" gap="16" s={{ columns: 1 }}>
+        {sections.map((section) => (
+          <Column
+            key={section.title}
+            padding="24"
+            background="surface"
+            radius="m"
+            border="neutral-alpha-weak"
+            gap="16"
+            horizontal="center"
+            align="center"
+          >
+            <Icon name={section.icon} size="l" onBackground="brand-medium" />
+            <Column gap="4" horizontal="center">
+              <Text variant="heading-strong-m" align="center">{section.title}</Text>
+              <Text variant="body-default-s" onBackground="neutral-weak" align="center">
+                {section.description}
+              </Text>
+            </Column>
+            <Button href={section.href} variant="secondary" size="s">
+              Open {section.title}
+            </Button>
+          </Column>
+        ))}
+      </Grid>
     </Column>
   );
 }

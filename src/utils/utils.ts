@@ -23,6 +23,13 @@ type Metadata = {
   link?: string;
 };
 
+export type Post = {
+    slug: string;
+    metadata: Metadata;
+    content: string;
+    isStatic?: boolean;
+}
+
 function getMDXFiles(dir: string) {
   if (!fs.existsSync(dir)) {
     notFound();
@@ -54,7 +61,7 @@ function readMDXFile(filePath: string) {
   return { metadata, content };
 }
 
-function getMDXData(dir: string) {
+function getMDXData(dir: string): Post[] {
   const mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
     const { metadata, content } = readMDXFile(path.join(dir, file));
@@ -64,11 +71,12 @@ function getMDXData(dir: string) {
       metadata,
       slug,
       content,
+      isStatic: true,
     };
   });
 }
 
-export async function getPosts(customPath = ["src", "app", "work", "projects"]) {
+export async function getPosts(customPath = ["src", "app", "work", "projects"]): Promise<Post[]> {
   const postsDir = path.join(process.cwd(), ...customPath);
   const staticPosts = getMDXData(postsDir);
 
@@ -76,7 +84,7 @@ export async function getPosts(customPath = ["src", "app", "work", "projects"]) 
   if (isConfigured && customPath.includes("work") && customPath.includes("projects")) {
     try {
       const { rows } = await pool!.query("SELECT * FROM projects ORDER BY published_at DESC");
-      const dbPosts = rows.map((row) => ({
+      const dbPosts: Post[] = rows.map((row) => ({
         slug: row.slug,
         metadata: {
           title: row.title,
@@ -90,10 +98,11 @@ export async function getPosts(customPath = ["src", "app", "work", "projects"]) 
           link: "",
         },
         content: row.content,
+        isStatic: false,
       }));
 
       // Merge: DB overrides static with same slug
-      const mergedMap = new Map();
+      const mergedMap = new Map<string, Post>();
       staticPosts.forEach((p) => mergedMap.set(p.slug, p));
       dbPosts.forEach((p) => mergedMap.set(p.slug, p));
 

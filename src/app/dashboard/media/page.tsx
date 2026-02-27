@@ -128,6 +128,22 @@ export default function MediaDashboard() {
                 >
                   Copy URL
                 </Button>
+                <Button
+                  variant="danger"
+                  size="s"
+                  onClick={async () => {
+                    if (!confirm("Are you sure you want to delete this file?")) return;
+                    try {
+                      const response = await fetch(`/api/media?id=${item.id}`, { method: "DELETE" });
+                      if (response.ok) fetchMedia();
+                      else alert("Delete failed");
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                >
+                  Delete
+                </Button>
               </Column>
             </Column>
           ))}

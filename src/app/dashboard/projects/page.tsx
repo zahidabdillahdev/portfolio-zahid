@@ -48,7 +48,11 @@ export default async function ProjectsDashboard() {
             <Column gap="4">
               <Row gap="8" vertical="center">
                 <Text variant="heading-strong-m">{project.metadata.title}</Text>
-                {/* We don't easily know if it's static or DB here unless we add it to metadata or return type */}
+                {project.isStatic ? (
+                  <Badge size="s" variant="neutral">Static (MDX)</Badge>
+                ) : (
+                  <Badge size="s" variant="brand">Database</Badge>
+                )}
               </Row>
               <Text variant="body-default-s" onBackground="neutral-weak">
                 /{project.slug} • {project.metadata.publishedAt}
@@ -62,7 +66,7 @@ export default async function ProjectsDashboard() {
               >
                 Edit
               </Button>
-              <DeleteProjectButton slug={project.slug} />
+              {!project.isStatic && <DeleteProjectButton slug={project.slug} />}
             </Row>
           </Row>
         ))}
