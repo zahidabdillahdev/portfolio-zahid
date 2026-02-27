@@ -132,7 +132,7 @@ export default function MediaDashboard() {
             </Column>
           ))}
           {media.length === 0 && (
-            <Column fillWidth gridColumn="1 / -1" paddingY="48" horizontal="center">
+            <Column fillWidth style={{ gridColumn: "1 / -1" }} paddingY="48" horizontal="center">
               <Text onBackground="neutral-weak">No media found.</Text>
             </Column>
           )}
