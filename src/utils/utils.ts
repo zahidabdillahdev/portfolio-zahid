@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
 import pool, { isConfigured } from "@/lib/db";
-import { person, social, home } from "@/resources/content";
+import { person, social, home, about } from "@/resources/content";
 
 // ... existing types ...
 
@@ -50,7 +50,7 @@ export async function getProfile() {
       console.error("Error fetching profile from DB:", err);
     }
   }
-  return { person, social, home };
+  return { person, social, home, about };
 }
 
 type Team = {
