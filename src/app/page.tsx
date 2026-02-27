@@ -116,10 +116,12 @@ export default async function Home() {
 
       <Column fillWidth horizontal="center" paddingY="64" gap="24">
         <Heading variant="display-strong-xs">Let's connect</Heading>
-        <Text onBackground="neutral-weak" align="center" maxWidth="s">
-          I'm always open to new opportunities and collaborations. <br />
-          Reach out if you'd like to work together or just say hi!
-        </Text>
+        <Column maxWidth="s">
+          <Text onBackground="neutral-weak" align="center">
+            I'm always open to new opportunities and collaborations. <br />
+            Reach out if you'd like to work together or just say hi!
+          </Text>
+        </Column>
         <Button
           href={person.email ? `mailto:${person.email}` : "#"}
           variant="primary"
