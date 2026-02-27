@@ -18,6 +18,7 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
+    let isMounted = true;
     const updateTime = () => {
       const now = new Date();
       const options: Intl.DateTimeFormatOptions = {
@@ -28,13 +29,18 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
         hour12: false,
       };
       const timeString = new Intl.DateTimeFormat(locale, options).format(now);
-      setCurrentTime(timeString);
+      if (isMounted) {
+        setCurrentTime(timeString);
+      }
     };
 
     updateTime();
     const intervalId = setInterval(updateTime, 1000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
   }, [timeZone, locale]);
 
   return <>{currentTime}</>;

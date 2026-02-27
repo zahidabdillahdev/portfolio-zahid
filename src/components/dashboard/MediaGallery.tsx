@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Column, Heading, Text, Row, Button, Icon, Grid, Media, Feedback } from "@once-ui-system/core";
 
 type MediaItem = {
@@ -21,6 +21,12 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => { isMounted.current = false; };
+  }, []);
 
   const fetchMedia = async () => {
     if (!isConfigured) return;
@@ -29,18 +35,22 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
     try {
       const response = await fetch("/api/media");
       const data = await response.json();
-      if (Array.isArray(data)) {
-        setMedia(data);
-      } else {
-        setMedia([]);
-        setError(data.error || "Failed to load media");
+      if (isMounted.current) {
+        if (Array.isArray(data)) {
+          setMedia(data);
+        } else {
+          setMedia([]);
+          setError(data.error || "Failed to load media");
+        }
       }
     } catch (err) {
       console.error(err);
-      setMedia([]);
-      setError("An unexpected error occurred");
+      if (isMounted.current) {
+        setMedia([]);
+        setError("An unexpected error occurred");
+      }
     } finally {
-      setLoading(false);
+      if (isMounted.current) setLoading(false);
     }
   };
 
@@ -71,7 +81,7 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
       console.error(err);
       alert("An error occurred during upload");
     } finally {
-      setUploading(false);
+      if (isMounted.current) setUploading(false);
     }
   };
 

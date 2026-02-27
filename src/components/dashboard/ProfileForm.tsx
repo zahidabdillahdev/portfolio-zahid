@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Column, Row, Button, Input, Text, Heading, Feedback, Icon, Grid } from "@once-ui-system/core";
 import { useRouter } from "next/navigation";
 
@@ -24,12 +24,15 @@ export function ProfileForm() {
     home_headline: "",
     home_subline: "",
   });
+  const isMounted = useRef(true);
 
   useEffect(() => {
+    isMounted.current = true;
+    
     fetch("/api/profile")
       .then(res => res.json())
       .then(data => {
-        if (data && !data.error) {
+        if (isMounted.current && data && !data.error) {
           setFormData(prev => ({
             ...prev,
             first_name: data.first_name ?? "",
@@ -50,7 +53,11 @@ export function ProfileForm() {
         }
       })
       .catch(err => console.error("Error loading profile:", err))
-      .finally(() => setFetching(false));
+      .finally(() => {
+        if (isMounted.current) setFetching(false);
+      });
+
+    return () => { isMounted.current = false; };
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -79,7 +86,7 @@ export function ProfileForm() {
       console.error(err);
       alert("An error occurred");
     } finally {
-      setLoading(false);
+      if (isMounted.current) setLoading(false);
     }
   };
 
