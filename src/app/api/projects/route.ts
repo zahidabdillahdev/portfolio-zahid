@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/lib/db";
+import pool, { isConfigured } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
+  if (!isConfigured) {
+    return NextResponse.json({ error: "Database not configured" }, { status: 500 });
+  }
+
   try {
     const { title, slug, description, content, publishedAt, cover_image, images, tags } = await req.json();
 
-    const { rows } = await pool.query(
+    const { rows } = await pool!.query(
       `INSERT INTO projects (title, slug, description, content, published_at, cover_image, images, tags) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
        RETURNING *`,
@@ -20,10 +24,14 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  if (!isConfigured) {
+    return NextResponse.json({ error: "Database not configured" }, { status: 500 });
+  }
+
   try {
     const { title, slug, description, content, publishedAt, cover_image, images, tags } = await req.json();
 
-    const { rows } = await pool.query(
+    const { rows } = await pool!.query(
       `UPDATE projects 
        SET title = $1, description = $2, content = $3, published_at = $4, cover_image = $5, images = $6, tags = $7, updated_at = CURRENT_TIMESTAMP
        WHERE slug = $8
@@ -43,6 +51,10 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  if (!isConfigured) {
+    return NextResponse.json({ error: "Database not configured" }, { status: 500 });
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const slug = searchParams.get("slug");
@@ -51,7 +63,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    const { rowCount } = await pool.query("DELETE FROM projects WHERE slug = $1", [slug]);
+    const { rowCount } = await pool!.query("DELETE FROM projects WHERE slug = $1", [slug]);
 
     if (rowCount === 0) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });

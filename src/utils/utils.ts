@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
-import pool from "@/lib/db";
+import pool, { isConfigured } from "@/lib/db";
 
 type Team = {
   name: string;
@@ -73,9 +73,9 @@ export async function getPosts(customPath = ["src", "app", "work", "projects"]) 
   const staticPosts = getMDXData(postsDir);
 
   // If we are looking for projects, also check database
-  if (customPath.includes("work") && customPath.includes("projects")) {
+  if (isConfigured && customPath.includes("work") && customPath.includes("projects")) {
     try {
-      const { rows } = await pool.query("SELECT * FROM projects ORDER BY published_at DESC");
+      const { rows } = await pool!.query("SELECT * FROM projects ORDER BY published_at DESC");
       const dbPosts = rows.map((row) => ({
         slug: row.slug,
         metadata: {

@@ -1,12 +1,20 @@
-import { Column, Heading, Text, Row, Button, Icon, Badge } from "@once-ui-system/core";
+import { Column, Heading, Text, Row, Button, Icon, Badge, Feedback } from "@once-ui-system/core";
 import { getPosts } from "@/utils/utils";
 import { DeleteProjectButton } from "@/components/dashboard/DeleteProjectButton";
+import { isConfigured } from "@/lib/db";
 
 export default async function ProjectsDashboard() {
   const projects = await getPosts(["src", "app", "work", "projects"]);
 
   return (
     <Column maxWidth="m" fillWidth paddingY="24" gap="24">
+      {!isConfigured && (
+        <Feedback
+          variant="warning"
+          title="Database not configured"
+          description="Please set DATABASE_URL in your .env file to enable database features."
+        />
+      )}
       <Row fillWidth horizontal="justify" vertical="center">
         <Column gap="8">
           <Heading variant="display-strong-s">Projects</Heading>
