@@ -34,7 +34,6 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
       } else {
         setMedia([]);
         setError(data.error || "Failed to load media");
-        console.error("API returned non-array data:", data);
       }
     } catch (err) {
       console.error(err);
@@ -76,19 +75,23 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
     }
   };
 
+  const deleteMedia = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this file?")) return;
+    try {
+      const response = await fetch(`/api/media?id=${id}`, { method: "DELETE" });
+      if (response.ok) fetchMedia();
+      else alert("Delete failed");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <Column maxWidth="m" fillWidth paddingY="24" gap="24">
-      {!isConfigured && (
-        <Feedback
-          variant="warning"
-          title="Database not configured"
-          description="Please set DATABASE_URL in your .env file to enable database features."
-        />
-      )}
-      <Row fillWidth horizontal="justify" vertical="center">
-        <Column gap="8">
-          <Heading variant="display-strong-s">Media</Heading>
-          <Text onBackground="neutral-weak">Upload and manage your images and videos.</Text>
+    <Column fillWidth gap="32">
+      <Row fillWidth horizontal="justify" vertical="center" s={{ direction: "column", horizontal: "center", gap: "16" }}>
+        <Column gap="8" s={{ horizontal: "center", align: "center" }}>
+          <Heading variant="display-strong-s">Assets Library</Heading>
+          <Text onBackground="neutral-weak">Media and project resources stored in R2.</Text>
         </Column>
         <label>
           <input
@@ -96,7 +99,7 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
             style={{ display: "none" }}
             onChange={handleUpload}
             disabled={uploading || !isConfigured}
-            accept="image/*,video/*"
+            accept="image/*,video/*,application/pdf"
           />
           <Button
             as="span"
@@ -107,40 +110,54 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
           >
             <Row gap="8" vertical="center">
               <Icon name="plus" size="s" />
-              Upload Media
+              Upload Asset
             </Row>
           </Button>
         </label>
       </Row>
 
+      {!isConfigured && (
+        <Feedback
+          variant="warning"
+          title="Database not configured"
+          description="Please set DATABASE_URL in your .env file to enable asset library."
+        />
+      )}
+
       {error && (
         <Feedback
           variant="danger"
-          title="Error loading media"
+          title="Error loading assets"
           description={error}
         />
       )}
 
       {loading ? (
-        <Text align="center" paddingY="48">Loading media...</Text>
+        <Column fillWidth paddingY="64" horizontal="center">
+          <Text onBackground="neutral-weak">Scanning library...</Text>
+        </Column>
       ) : (
         <Grid columns="4" gap="16" s={{ columns: 2 }}>
           {Array.isArray(media) && media.map((item) => (
             <Column
               key={item.id}
               background="surface"
-              radius="m"
+              radius="l"
               border="neutral-alpha-weak"
               overflow="hidden"
-              gap="8"
+              gap="12"
+              padding="8"
+              transition="all"
+              style={{ borderStyle: 'solid' }}
             >
               <Media
                 src={item.url}
                 alt={item.filename}
                 aspectRatio="1 / 1"
+                radius="m"
                 style={{ objectFit: "cover" }}
               />
-              <Column paddingX="8" paddingBottom="8" gap="4">
+              <Column paddingX="4" paddingBottom="4" gap="8">
                 <Text variant="body-default-xs" onBackground="neutral-weak" style={{ 
                   whiteSpace: "nowrap", 
                   overflow: "hidden", 
@@ -148,38 +165,33 @@ export function MediaGallery({ isConfigured }: MediaGalleryProps) {
                 }}>
                   {item.filename}
                 </Text>
-                <Button
-                  variant="tertiary"
-                  size="s"
-                  onClick={() => {
-                    navigator.clipboard.writeText(item.url);
-                    alert("URL copied to clipboard!");
-                  }}
-                >
-                  Copy URL
-                </Button>
-                <Button
-                  variant="danger"
-                  size="s"
-                  onClick={async () => {
-                    if (!confirm("Are you sure you want to delete this file?")) return;
-                    try {
-                      const response = await fetch(`/api/media?id=${item.id}`, { method: "DELETE" });
-                      if (response.ok) fetchMedia();
-                      else alert("Delete failed");
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                >
-                  Delete
-                </Button>
+                <Row gap="8">
+                  <Button
+                    variant="secondary"
+                    size="s"
+                    fillWidth
+                    onClick={() => {
+                      navigator.clipboard.writeText(item.url);
+                      alert("Link copied!");
+                    }}
+                  >
+                    Link
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="s"
+                    onClick={() => deleteMedia(item.id)}
+                  >
+                    <Icon name="close" size="s" />
+                  </Button>
+                </Row>
               </Column>
             </Column>
           ))}
-          {media.length === 0 && (
-            <Column fillWidth style={{ gridColumn: "1 / -1" }} paddingY="48" horizontal="center">
-              <Text onBackground="neutral-weak">No media found.</Text>
+          {media.length === 0 && !error && (
+            <Column fillWidth style={{ gridColumn: "1 / -1" }} paddingY="64" horizontal="center" background="surface" radius="l" border="neutral-alpha-weak">
+              <Icon name="gallery" size="l" onBackground="neutral-alpha-medium" marginBottom="16" />
+              <Text onBackground="neutral-weak">The library is empty.</Text>
             </Column>
           )}
         </Grid>

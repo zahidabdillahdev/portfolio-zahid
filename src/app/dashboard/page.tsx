@@ -3,61 +3,82 @@ import { Column, Heading, Text, Row, Button, Icon, Grid } from "@once-ui-system/
 export default function Dashboard() {
   const sections = [
     {
+      title: "Identity",
+      description: "Personal branding and social links",
+      icon: "person",
+      href: "/dashboard/profile",
+      color: "brand-medium"
+    },
+    {
       title: "Projects",
-      description: "Manage your work and projects",
+      description: "Manage your portfolio projects",
       icon: "grid",
       href: "/dashboard/projects",
+      color: "accent-medium"
     },
     {
       title: "Media",
-      description: "Upload images and videos",
+      description: "Upload and manage assets",
       icon: "gallery",
       href: "/dashboard/media",
+      color: "brand-strong"
     },
     {
       title: "Certificates",
-      description: "Manage your professional certifications",
-      icon: "person",
+      description: "Professional certifications",
+      icon: "book",
       href: "/dashboard/certificates",
-    },
-    {
-      title: "Identity",
-      description: "Update your name, role, and social links",
-      icon: "person",
-      href: "/dashboard/profile",
+      color: "neutral-strong"
     },
   ];
 
   return (
-    <Column maxWidth="m" fillWidth paddingY="24" gap="24">
+    <Column fillWidth gap="32">
       <Column gap="8">
-        <Heading variant="display-strong-s">Dashboard</Heading>
-        <Text onBackground="neutral-weak">Welcome to your portfolio management system.</Text>
+        <Heading variant="display-strong-s">Welcome back, Zahid</Heading>
+        <Text onBackground="neutral-weak">Control center for your professional portfolio.</Text>
       </Column>
 
-      <Grid columns="3" gap="16" s={{ columns: 1 }}>
+      <Grid columns="2" gap="16" s={{ columns: 1 }}>
         {sections.map((section) => (
-          <Column
+          <Button
             key={section.title}
-            padding="24"
-            background="surface"
-            radius="m"
-            border="neutral-alpha-weak"
-            gap="16"
-            horizontal="center"
-            align="center"
+            href={section.href}
+            variant="ghost"
+            style={{ 
+              height: 'auto', 
+              padding: '0',
+              textAlign: 'left'
+            }}
           >
-            <Icon name={section.icon} size="l" onBackground="brand-medium" />
-            <Column gap="4" horizontal="center">
-              <Text variant="heading-strong-m" align="center">{section.title}</Text>
-              <Text variant="body-default-s" onBackground="neutral-weak" align="center">
-                {section.description}
-              </Text>
-            </Column>
-            <Button href={section.href} variant="secondary" size="s">
-              Open {section.title}
-            </Button>
-          </Column>
+            <Row 
+              fillWidth 
+              padding="24" 
+              background="surface" 
+              radius="l" 
+              border="neutral-alpha-weak" 
+              gap="24"
+              vertical="center"
+              transition="all"
+              style={{ borderStyle: 'solid' }}
+            >
+              <Column 
+                padding="12" 
+                background="neutral-alpha-weak" 
+                radius="m"
+                horizontal="center"
+                vertical="center"
+              >
+                <Icon name={section.icon} size="m" onBackground={section.color} />
+              </Column>
+              <Column gap="4">
+                <Text variant="heading-strong-m">{section.title}</Text>
+                <Text variant="body-default-s" onBackground="neutral-weak">
+                  {section.description}
+                </Text>
+              </Column>
+            </Row>
+          </Button>
         ))}
       </Grid>
     </Column>
